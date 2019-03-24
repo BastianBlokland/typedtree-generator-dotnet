@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using TypedTreeGenerator.Core;
 
 namespace TypedTreeGenerator.Cli
