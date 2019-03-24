@@ -4,5 +4,8 @@
     <VersionPrefix>0.1</VersionPrefix>
     <!-- Append build number if available -->
     <VersionPrefix Condition=" '$(BUILD_NUMBER)' != '' ">$(VersionPrefix).$(BUILD_NUMBER)</VersionPrefix>
+
+    <!-- Set source sha as the informational version if available -->
+    <InformationalVersion Condition=" '$(SOURCE_SHA)' != '' ">$(SOURCE_SHA)</InformationalVersion>
   </PropertyGroup>
 </Project>

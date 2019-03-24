@@ -7,6 +7,7 @@ source ./ci/utils.sh
 # --------------------------------------------------------------------------------------------------
 
 export BUILD_NUMBER=$1
+export SOURCE_SHA=$2
 
 # Verify that the 'dotnet' cli command is present
 verifyCommand dotnet
@@ -22,7 +23,7 @@ package ()
         /p:TreatWarningsAsErrors=true /warnaserror
 }
 
-info "Start packaging (buildnumber: '$BUILD_NUMBER')"
+info "Start packaging (buildnumber: '$BUILD_NUMBER', sourcesha: '$SOURCE_SHA')"
 package TypedTree.Generator.Core
 package TypedTree.Generator.Cli
 
