@@ -1,0 +1,18 @@
+# --------------------------------------------------------------------------------------------------
+# Azure CI pipeline.
+# More info: https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+# --------------------------------------------------------------------------------------------------
+
+pool:
+  vmImage: 'Ubuntu 16.04'
+
+steps:
+- script: ./ci/test.sh
+  displayName: 'Test'
+
+- task: PublishTestResults@2
+  displayName: 'Publish test results'
+  inputs:
+    testResultsFormat: xUnit
+    testResultsFiles: '$(System.DefaultWorkingDirectory)/artifacts/xunit.results.xml'
+  condition: always()
