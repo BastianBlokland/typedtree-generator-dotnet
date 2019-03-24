@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup>
+    <!-- Major.Minor adjust manually -->
+    <VersionPrefix>0.1</VersionPrefix>
+    <!-- Append build number if available -->
+    <VersionPrefix Condition=" '$(BUILD_NUMBER)' != '' ">$(VersionPrefix).$(BUILD_NUMBER)</VersionPrefix>
+  </PropertyGroup>
+</Project>

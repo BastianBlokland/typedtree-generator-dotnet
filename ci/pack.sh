@@ -6,6 +6,8 @@ source ./ci/utils.sh
 # Create NuGet packages.
 # --------------------------------------------------------------------------------------------------
 
+export BUILD_NUMBER=$1
+
 # Verify that the 'dotnet' cli command is present
 verifyCommand dotnet
 
@@ -20,7 +22,7 @@ package ()
         /p:TreatWarningsAsErrors=true /warnaserror
 }
 
-info "Start packaging"
+info "Start packaging (buildnumber: '$BUILD_NUMBER')"
 package TypedTree.Generator.Core
 package TypedTree.Generator.Cli
 
