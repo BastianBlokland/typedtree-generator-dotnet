@@ -3,11 +3,12 @@ using TypedTreeGenerator.Core;
 
 namespace TypedTreeGenerator.Cli
 {
-    class Program
+    public static class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine(new Class1().HelloWorld());
+            Console.WriteLine($"NumArgs: {args.Length}");
+            Console.WriteLine(Class1.HelloWorld());
         }
     }
 }

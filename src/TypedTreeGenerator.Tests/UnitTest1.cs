@@ -9,7 +9,7 @@ namespace TypedTreeGenerator.Tests
         [Fact]
         public void Test1()
         {
-            Assert.Equal("Hello World", new Class1().HelloWorld());
+            Assert.Equal("Hello World", Class1.HelloWorld());
         }
     }
 }

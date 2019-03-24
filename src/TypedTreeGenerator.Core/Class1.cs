@@ -2,8 +2,8 @@
 
 namespace TypedTreeGenerator.Core
 {
-    public class Class1
+    public static class Class1
     {
-        public string HelloWorld() => "Hello World";
+        public static string HelloWorld() => "Hello World";
     }
 }
