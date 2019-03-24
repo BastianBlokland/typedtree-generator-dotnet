@@ -15,7 +15,7 @@ package ()
 {
     info "Package: $1"
     dotnet pack "src/$1/$1.csproj" \
-        --output "artifacts" \
+        --output "$(pwd)/artifacts" \
         --configuration Release \
         --include-source \
         --include-symbols \
