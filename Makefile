@@ -8,8 +8,11 @@ default: build
 clean:
 	./ci/clean.sh
 
-build:
+build: clean
 	./ci/build.sh
+
+pack: clean
+	./ci/pack.sh
 
 test:
 	./ci/test.sh

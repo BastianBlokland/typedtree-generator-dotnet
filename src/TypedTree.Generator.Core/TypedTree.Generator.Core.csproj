@@ -1,25 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>7.3</LangVersion>
     <CodeAnalysisRuleSet>../analyzers.ruleset</CodeAnalysisRuleSet>
 
-    <RootNamespace>TypedTreeGenerator.Tests</RootNamespace>
-    <AssemblyName>TypedTreeGenerator.Tests</AssemblyName>
+    <RootNamespace>TypedTree.Generator.Core</RootNamespace>
+    <AssemblyName>TypedTree.Generator.Core</AssemblyName>
+    <PackageId>TypedTree.Generator.Core</PackageId>
 
-    <IsPackable>false</IsPackable>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Project reference -->
-    <ProjectReference Include="../TypedTreeGenerator.Core/TypedTreeGenerator.Core.csproj" />
-
-    <!-- Unit testing -->
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
-    <PackageReference Include="xunit" Version="2.4.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
-    <PackageReference Include="XunitXML.TestLogger" Version="2.0.0" />
+    <!-- Sourcelink -->
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05" PrivateAssets="All"/>
 
     <!-- Static code analysis -->
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
@@ -33,5 +30,4 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
-
 </Project>

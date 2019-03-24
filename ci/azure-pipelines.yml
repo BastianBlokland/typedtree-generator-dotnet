@@ -6,9 +6,15 @@
 pool:
   vmImage: 'Ubuntu 16.04'
 
+variables:
+- group: ci-keys
+
 steps:
 - script: ./ci/test.sh
   displayName: 'Test'
+
+- script: ./ci/pack.sh
+  displayName: 'Pack'
 
 - task: PublishTestResults@2
   displayName: 'Publish test results'

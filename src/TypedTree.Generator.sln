@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypedTreeGenerator.Core", "TypedTreeGenerator.Core\TypedTreeGenerator.Core.csproj", "{6C5CE135-4537-4FAA-9AFD-DEEC0C7F20B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypedTree.Generator.Core", "TypedTree.Generator.Core\TypedTree.Generator.Core.csproj", "{6C5CE135-4537-4FAA-9AFD-DEEC0C7F20B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypedTreeGenerator.Cli", "TypedTreeGenerator.Cli\TypedTreeGenerator.Cli.csproj", "{A8BDAF98-3869-46AB-B8C8-AC3C78E1D530}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypedTree.Generator.Cli", "TypedTree.Generator.Cli\TypedTree.Generator.Cli.csproj", "{A8BDAF98-3869-46AB-B8C8-AC3C78E1D530}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypedTreeGenerator.Tests", "TypedTreeGenerator.Tests\TypedTreeGenerator.Tests.csproj", "{B6D89DE8-0D17-480A-B208-45406A068A0B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypedTree.Generator.Tests", "TypedTree.Generator.Tests\TypedTree.Generator.Tests.csproj", "{B6D89DE8-0D17-480A-B208-45406A068A0B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

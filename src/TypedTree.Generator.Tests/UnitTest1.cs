@@ -1,8 +1,8 @@
 using System;
-using TypedTreeGenerator.Core;
+using TypedTree.Generator.Core;
 using Xunit;
 
-namespace TypedTreeGenerator.Tests
+namespace TypedTree.Generator.Tests
 {
     public class UnitTest1
     {

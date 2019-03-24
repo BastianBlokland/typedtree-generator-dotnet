@@ -7,16 +7,17 @@
     <CodeAnalysisRuleSet>../analyzers.ruleset</CodeAnalysisRuleSet>
 
     <AssemblyName>dotnet-typedtree-generator</AssemblyName>
-    <RootNamespace>TypedTreeGenerator.Cli</RootNamespace>
+    <RootNamespace>TypedTree.Generator.Cli</RootNamespace>
     <PackageId>TypedTree.Generator</PackageId>
 
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
     <!-- Project reference -->
-    <ProjectReference Include="../TypedTreeGenerator.Core/TypedTreeGenerator.Core.csproj" />
+    <ProjectReference Include="../TypedTree.Generator.Core/TypedTree.Generator.Core.csproj" />
 
     <!-- Utilities -->
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.2.0" />

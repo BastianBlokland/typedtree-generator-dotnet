@@ -15,7 +15,7 @@ info "Starting clean"
 rm -rf ./artifacts
 
 # Clean the solution
-dotnet clean src/TypedTreeGenerator.sln
+dotnet clean src/TypedTree.Generator.sln
 
 info "Finished clean"
 exit 0
