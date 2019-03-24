@@ -18,6 +18,7 @@ steps:
 
 - script: ./ci/publish.sh "$(azure-nuget-ci)"
   displayName: 'Publish'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
 - task: PublishTestResults@2
   displayName: 'Publish test results'
