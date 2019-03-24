@@ -1,7 +1,7 @@
 using System;
-using TypedTreeGenerator.Core;
+using TypedTree.Generator.Core;
 
-namespace TypedTreeGenerator.Cli
+namespace TypedTree.Generator.Cli
 {
     public static class Program
     {

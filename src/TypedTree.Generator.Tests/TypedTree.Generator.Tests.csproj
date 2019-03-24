@@ -5,15 +5,15 @@
     <LangVersion>7.3</LangVersion>
     <CodeAnalysisRuleSet>../analyzers.ruleset</CodeAnalysisRuleSet>
 
-    <RootNamespace>TypedTreeGenerator.Tests</RootNamespace>
-    <AssemblyName>TypedTreeGenerator.Tests</AssemblyName>
+    <RootNamespace>TypedTree.Generator.Tests</RootNamespace>
+    <AssemblyName>TypedTree.Generator.Tests</AssemblyName>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
     <!-- Project reference -->
-    <ProjectReference Include="../TypedTreeGenerator.Core/TypedTreeGenerator.Core.csproj" />
+    <ProjectReference Include="../TypedTree.Generator.Core/TypedTree.Generator.Core.csproj" />
 
     <!-- Unit testing -->
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />

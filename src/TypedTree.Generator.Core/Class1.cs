@@ -1,6 +1,6 @@
 using System;
 
-namespace TypedTreeGenerator.Core
+namespace TypedTree.Generator.Core
 {
     public static class Class1
     {

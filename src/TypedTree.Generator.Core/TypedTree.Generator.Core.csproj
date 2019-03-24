@@ -5,11 +5,20 @@
     <LangVersion>7.3</LangVersion>
     <CodeAnalysisRuleSet>../analyzers.ruleset</CodeAnalysisRuleSet>
 
-    <RootNamespace>TypedTreeGenerator.Core</RootNamespace>
-    <AssemblyName>TypedTreeGenerator.Core</AssemblyName>
+    <RootNamespace>TypedTree.Generator.Core</RootNamespace>
+    <AssemblyName>TypedTree.Generator.Core</AssemblyName>
+
+    <PackageId>TypedTree.Generator.Core</PackageId>
+    <Title>TypedTree scheme generator framework</Title>
+    <Description>Framework used by the scheme generator cli</Description>
+    <Authors>Bastian Blokland</Authors>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/BastianBlokland/typedtree-generator-dotnet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
 
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,5 +36,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+
+    <!-- License -->
+    <None Include="../../LICENSE" Pack="true" PackagePath=""/>
+
   </ItemGroup>
 </Project>
