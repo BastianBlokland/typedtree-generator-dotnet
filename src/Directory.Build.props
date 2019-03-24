@@ -1,11 +1,27 @@
 <Project>
+  <!-- Major.Minor adjust manually -->
   <PropertyGroup>
-    <!-- Major.Minor adjust manually -->
     <VersionPrefix>0.1</VersionPrefix>
-    <!-- Append build number if available -->
-    <VersionPrefix Condition=" '$(BUILD_NUMBER)' != '' ">$(VersionPrefix).$(BUILD_NUMBER)</VersionPrefix>
+  </PropertyGroup>
 
-    <!-- Set source sha as the informational version if available -->
+  <!-- Automatically set suffix info based on environment args (if availble) -->
+  <Choose>
+    <When Condition=" '$(PRERELEASE)' != '' ">
+      <PropertyGroup>
+        <!-- Prerelease version numbers are Major.Minor.0-pre-###### -->
+        <VersionSuffix>$(PRERELEASE)-$(BUILD_NUMBER.PadLeft(6, '0'))</VersionSuffix>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <!-- Release version numbers are Major.Minor.# -->
+        <VersionPrefix>$(VersionPrefix).$(BUILD_NUMBER.PadLeft(1, '0'))</VersionPrefix>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+
+  <!-- Automatically set informational version based on environment args (if available) -->
+  <PropertyGroup>
     <InformationalVersion Condition=" '$(SOURCE_SHA)' != '' ">$(SOURCE_SHA)</InformationalVersion>
   </PropertyGroup>
 </Project>

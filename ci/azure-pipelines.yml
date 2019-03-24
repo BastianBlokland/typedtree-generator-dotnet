@@ -13,7 +13,7 @@ steps:
 - script: ./ci/test.sh
   displayName: 'Test'
 
-- script: ./ci/pack.sh $(Build.BuildId) $(Build.SourceVersion)
+- script: ./ci/pack.sh $(Build.BuildId) $(Build.SourceVersion) $(Build.SourceBranchName)
   displayName: 'Pack'
 
 - task: PublishTestResults@2

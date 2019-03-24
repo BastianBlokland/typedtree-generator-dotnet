@@ -8,6 +8,21 @@ source ./ci/utils.sh
 
 export BUILD_NUMBER=$1
 export SOURCE_SHA=$2
+export BRANCH_NAME=$3
+
+# Determine set pre-release info based on branch name
+if [ $BRANCH_NAME == master ]
+then
+    export PRERELEASE=""
+else
+    export PRERELEASE="dev"
+fi
+
+info "Start packaging"
+info "buildnumber: '$BUILD_NUMBER'"
+info "sourcesha: '$SOURCE_SHA'"
+info "branchname: '$BRANCH_NAME'"
+info "prerelease: '$PRERELEASE'"
 
 # Verify that the 'dotnet' cli command is present
 verifyCommand dotnet
@@ -23,7 +38,6 @@ package ()
         /p:TreatWarningsAsErrors=true /warnaserror
 }
 
-info "Start packaging (buildnumber: '$BUILD_NUMBER', sourcesha: '$SOURCE_SHA')"
 package TypedTree.Generator.Core
 package TypedTree.Generator.Cli
 
