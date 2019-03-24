@@ -8,7 +8,18 @@
 
     <AssemblyName>dotnet-typedtree-generator</AssemblyName>
     <RootNamespace>TypedTree.Generator.Cli</RootNamespace>
+
     <PackageId>TypedTree.Generator</PackageId>
+    <PackageType>DotnetCliTool</PackageType>
+    <Title>TypedTree scheme generator cli tool</Title>
+    <Description>
+    Cli tool that can be used to generate scheme files for the typedtree-editor:
+    https://github.com/bastianblokland/typedtree-editor
+    </Description>
+    <Authors>Bastian Blokland</Authors>
+    <License>http://www.opensource.org/licenses/MIT</License>
+    <RepositoryUrl>https://github.com/BastianBlokland/typedtree-generator-dotnet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
 
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
