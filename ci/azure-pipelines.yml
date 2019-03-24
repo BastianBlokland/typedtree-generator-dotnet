@@ -16,6 +16,9 @@ steps:
 - script: ./ci/pack.sh $(Build.BuildId) $(Build.SourceVersion) $(Build.SourceBranchName)
   displayName: 'Pack'
 
+- script: ./ci/publish.sh "$(azure-nuget-ci)"
+  displayName: 'Publish'
+
 - task: PublishTestResults@2
   displayName: 'Publish test results'
   inputs:

@@ -14,5 +14,8 @@ build: clean
 pack: clean
 	./ci/pack.sh
 
+publish: pack
+	./ci/publish.sh
+
 test:
 	./ci/test.sh
