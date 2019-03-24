@@ -12,7 +12,7 @@
     <Title>TypedTree scheme generator framework</Title>
     <Description>Framework used by the scheme generator cli</Description>
     <Authors>Bastian Blokland</Authors>
-    <License>http://www.opensource.org/licenses/MIT</License>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/BastianBlokland/typedtree-generator-dotnet</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
 
@@ -36,5 +36,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+
+    <!-- License -->
+    <None Include="../../LICENSE" Pack="true" PackagePath=""/>
+
   </ItemGroup>
 </Project>
