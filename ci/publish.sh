@@ -25,9 +25,9 @@ publish ()
         fail "Unable to find package: 'artifacts/$1*.nupkg'"
     fi
 
-    dotnet nuget push artifacts/"$1"*.nupkg \
+    (cd artifacts && dotnet nuget push "$1"*.nupkg \
         --api-key $API_KEY \
-        --source "https://api.nuget.org/v3/index.json"
+        --source "https://api.nuget.org/v3/index.json")
 }
 
 publish TypedTree.Generator.Core
