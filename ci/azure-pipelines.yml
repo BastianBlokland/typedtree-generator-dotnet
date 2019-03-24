@@ -32,3 +32,4 @@ steps:
     artifactName: 'artifacts'
     PathtoPublish: '$(System.DefaultWorkingDirectory)/artifacts'
     parallel: true
+  condition: always()
