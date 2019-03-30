@@ -21,6 +21,12 @@
     <!-- 'File name must match first type name' -->
     <Rule Id="SA1649" Action="None" />
 
+    <!-- 'The property's documentation summary text must begin with: 'Gets'' -->
+    <Rule Id="SA1623" Action="None" />
+
+    <!-- 'Element return value must be documented' -->
+    <Rule Id="SA1615" Action="None" />
+
     <!-- 'Closing parenthesis must be followed by a space' -->
     <!-- Reason is that StyleCop doesn't understand new c#7 tuples yet and compains -->
     <Rule Id="SA1009" Action="None" />
@@ -34,6 +40,9 @@
 
     <!-- 'Override equals and operator equals on value types' -->
     <Rule Id="CA1815" Action="None" />
+
+    <!-- 'Identifiers should not match keywords' -->
+    <Rule Id="CA1716" Action="None" />
 
   </Rules>
 
