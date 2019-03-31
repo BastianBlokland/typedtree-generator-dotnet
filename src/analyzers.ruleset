@@ -44,6 +44,9 @@
     <!-- 'Identifiers should not match keywords' -->
     <Rule Id="CA1716" Action="None" />
 
+    <!-- 'Implement standard exception constructors' -->
+    <Rule Id="CA1032" Action="None" />
+
   </Rules>
 
 </RuleSet>

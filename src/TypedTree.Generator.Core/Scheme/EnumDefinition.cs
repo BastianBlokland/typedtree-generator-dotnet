@@ -21,7 +21,7 @@ namespace TypedTree.Generator.Core.Scheme
 
             // Verify that the values at least contain 1 entry and no duplicates
             Debug.Assert(values.Length > 0, "Enum must have at least one value");
-            Debug.Assert(values.Select(v => v.Name).IsUnique(), "Enum values must be unique");
+            Debug.Assert(values.Select(v => v.Value).IsUnique(), "Enum values must be unique");
 
             this.Identifier = identifier;
             this.Values = values;
