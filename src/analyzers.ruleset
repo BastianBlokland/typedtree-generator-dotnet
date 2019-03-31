@@ -27,6 +27,13 @@
     <!-- 'Element return value must be documented' -->
     <Rule Id="SA1615" Action="None" />
 
+    <!-- 'Using directives must be ordered alphabetically by the namespaces' -->
+    <Rule Id="SA1210" Action="None" />
+
+    <!-- 'Opening parenthesis must not be preceded by a space' -->
+    <!-- Reason is that StyleCop doesn't understand new c#7 tuples yet and compains -->
+    <Rule Id="SA1008" Action="None" />
+
     <!-- 'Closing parenthesis must be followed by a space' -->
     <!-- Reason is that StyleCop doesn't understand new c#7 tuples yet and compains -->
     <Rule Id="SA1009" Action="None" />

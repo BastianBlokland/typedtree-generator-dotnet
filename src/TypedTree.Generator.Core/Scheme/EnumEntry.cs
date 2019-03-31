@@ -7,9 +7,14 @@ namespace TypedTree.Generator.Core.Scheme
     /// <summary>
     /// Immutable single entry in an enum. Basically a named number.
     /// </summary>
-    public struct EnumEntry : IEquatable<EnumEntry>
+    public readonly struct EnumEntry : IEquatable<EnumEntry>
     {
-        internal EnumEntry(string name, int value)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnumEntry"/> struct.
+        /// </summary>
+        /// <param name="name">Name for the value</param>
+        /// <param name="value">Value that this entry represents</param>
+        public EnumEntry(string name, int value)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentException($"Invalid name: '{name}'", nameof(name));
@@ -28,6 +33,13 @@ namespace TypedTree.Generator.Core.Scheme
         /// </summary>
         public int Value { get; }
 
+        /// <summary>
+        /// Convert a (name, value) tuple to a <see cref="EnumEntry"/>.
+        /// </summary>
+        /// <param name="tuple">Tuple to convert</param>
+        public static implicit operator EnumEntry((string name, int value) tuple) =>
+            new EnumEntry(tuple.name, tuple.value);
+
         /// <summary>Check if two entries are equal.</summary>
         /// <remarks>Does not check if entries belong to the same 'Enum' or not.</remarks>
         /// <param name="a">Item to compare to B</param>
@@ -41,6 +53,24 @@ namespace TypedTree.Generator.Core.Scheme
         /// <param name="b">Item to compare to A</param>
         /// <returns>False if equal, otherwise true</returns>
         public static bool operator !=(EnumEntry a, EnumEntry b) => !a.Equals(b);
+
+        /// <summary>
+        /// Convert a (name, value) tuple to a <see cref="EnumEntry"/>.
+        /// </summary>
+        /// <param name="tuple">Tuple to convert</param>
+        public static EnumEntry ToEnumEntry((string name, int value) tuple) =>
+            new EnumEntry(tuple.name, tuple.value);
+
+        /// <summary>
+        /// Deconstruct this entry into a name and a value.
+        /// </summary>
+        /// <param name="name">Name of the entry</param>
+        /// <param name="value">Value of the entry</param>
+        public void Deconstruct(out string name, out int value)
+        {
+            name = this.Name;
+            value = this.Value;
+        }
 
         /// <summary>
         /// Check if this entry is equal to the given object.
@@ -66,5 +96,10 @@ namespace TypedTree.Generator.Core.Scheme
         /// Get a hashcode representing this entry.
         /// </summary>
         public override int GetHashCode() => HashCode.Combine(this.Name, this.Value);
+
+        /// <summary>
+        /// Get a string representation for this entry.
+        /// </summary>
+        public override string ToString() => $"{this.Name}:{this.Value}";
     }
 }

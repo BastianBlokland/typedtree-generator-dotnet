@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,5 +27,34 @@ namespace TypedTree.Generator.Core.Utilities
         /// <returns>True if all elements are unique, otherwise false</returns>
         public static bool IsUnique<T>(this IEnumerable<T> enumerable, IEqualityComparer<T> comparer) =>
             enumerable.All(new HashSet<T>(comparer).Add);
+
+        /// <summary>
+        /// Create a hash for the content of the enumerable.
+        /// </summary>
+        /// <param name="enumerable">Enumerable to create the HashCode for</param>
+        /// <typeparam name="T">Content type</typeparam>
+        /// <returns>HashCode for the content of given enumerable</returns>
+        public static int GetSequenceHashCode<T>(this IEnumerable<T> enumerable) =>
+            GetSequenceHashCode(enumerable, EqualityComparer<T>.Default);
+
+        /// <summary>
+        /// Create a hash for the content of the enumerable.
+        /// </summary>
+        /// <param name="enumerable">Enumerable to create the HashCode for</param>
+        /// <param name="comparer">Equality comparer used to create hashes of individual entries</param>
+        /// <typeparam name="T">Content type</typeparam>
+        /// <returns>HashCode for the content of given enumerable</returns>
+        public static int GetSequenceHashCode<T>(this IEnumerable<T> enumerable, IEqualityComparer<T> comparer)
+        {
+            if (enumerable == null)
+                throw new ArgumentNullException(nameof(enumerable));
+            if (comparer == null)
+                throw new ArgumentNullException(nameof(comparer));
+
+            HashCode hashcode = default;
+            foreach (var entry in enumerable)
+                hashcode.Add(entry, comparer);
+            return hashcode.ToHashCode();
+        }
     }
 }

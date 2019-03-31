@@ -12,7 +12,7 @@ namespace TypedTree.Generator.Core.Scheme
     /// For example a 'Alias' could be a 'ICondition' that can point to 'EnemyInRangeCondition'
     /// or 'OutOfHealthCondition'.
     /// </summary>
-    public sealed class AliasDefinition
+    public sealed class AliasDefinition : IEquatable<AliasDefinition>
     {
         internal AliasDefinition(string identifier, ImmutableArray<string> values)
         {
@@ -38,5 +38,49 @@ namespace TypedTree.Generator.Core.Scheme
         /// Set of node-types that this Alias can reference.
         /// </summary>
         public ImmutableArray<string> Values { get; }
+
+        /// <summary>Check if two instances are equal.</summary>
+        /// <param name="a">Item to compare to B</param>
+        /// <param name="b">Item to compare to A</param>
+        /// <returns>True if equal, otherwise false</returns>
+        public static bool operator ==(AliasDefinition a, AliasDefinition b)
+        {
+            if (object.ReferenceEquals(a, null))
+                return object.ReferenceEquals(b, null);
+            return a.Equals(b);
+        }
+
+        /// <summary>Check if two instances are not equal.</summary>
+        /// <param name="a">Item to compare to B</param>
+        /// <param name="b">Item to compare to A</param>
+        /// <returns>False if equal, otherwise true</returns>
+        public static bool operator !=(AliasDefinition a, AliasDefinition b) => !(a == b);
+
+        /// <summary>
+        /// Check if this is structurally equal to given object.
+        /// </summary>
+        /// <param name="obj">Object to compare to</param>
+        /// <returns>True if equal, otherwise false</returns>
+        public override bool Equals(object obj) =>
+            obj != null &&
+            obj is AliasDefinition &&
+            this.Equals((AliasDefinition)obj);
+
+        /// <summary>
+        /// Check if this is structurally equal to given other alias.
+        /// </summary>
+        /// <param name="other">Alias to compare to</param>
+        /// <returns>True if equal, otherwise false</returns>
+        public bool Equals(AliasDefinition other) =>
+            other != null &&
+            other.Identifier == this.Identifier &&
+            other.Values.SequenceEqual(this.Values);
+
+        /// <summary>
+        /// Get a hashcode representing this alias.
+        /// </summary>
+        public override int GetHashCode() => HashCode.Combine(
+            this.Identifier,
+            this.Values.GetSequenceHashCode());
     }
 }

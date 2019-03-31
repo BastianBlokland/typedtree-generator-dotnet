@@ -109,6 +109,25 @@ namespace TypedTree.Generator.Core.Builder
         /// <param name="identifier">Identifier of the enum</param>
         /// <param name="entries">Entries of the enum</param>
         /// <returns>Newly created definition</returns>
+        public EnumDefinition PushEnum(string identifier, params EnumEntry[] entries) =>
+            this.PushEnum(identifier, entries as IEnumerable<EnumEntry>);
+
+        /// <summary>
+        /// Add an enum to the scheme.
+        /// </summary>
+        /// <remarks>Identifier has to be unique across all enums and aliases.</remarks>
+        /// <exception cref="Exceptions.EmptyEnumException">
+        /// Thrown when enum has no entries.
+        /// </exception>
+        /// <exception cref="Exceptions.EnumDuplicateValueException">
+        /// Thrown when enum contains duplicate values.
+        /// </exception>
+        /// <exception cref="Exceptions.DuplicateEnumIdentifierException">
+        /// Thrown when enum identifier is not unique.
+        /// </exception>
+        /// <param name="identifier">Identifier of the enum</param>
+        /// <param name="entries">Entries of the enum</param>
+        /// <returns>Newly created definition</returns>
         public EnumDefinition PushEnum(string identifier, IEnumerable<EnumEntry> entries)
         {
             if (string.IsNullOrEmpty(identifier))
