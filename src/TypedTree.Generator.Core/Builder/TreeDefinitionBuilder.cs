@@ -114,6 +114,22 @@ namespace TypedTree.Generator.Core.Builder
         /// <param name="identifier">Identifier of the alias</param>
         /// <param name="values">Value of the alias</param>
         /// <returns>Newly created definition</returns>
+        public AliasDefinition PushAlias(string identifier, params string[] values) =>
+            this.PushAlias(identifier, values as IEnumerable<string>);
+
+        /// <summary>
+        /// Add an alias to the scheme.
+        /// </summary>
+        /// <remarks>Identifier has to be unique across all aliases and enums.</remarks>
+        /// <exception cref="Exceptions.EmptyAliasException">
+        /// Thrown when alias has no values.
+        /// </exception>
+        /// <exception cref="Exceptions.DuplicateAliasIdentifierException">
+        /// Thrown when alias identifier is not unique.
+        /// </exception>
+        /// <param name="identifier">Identifier of the alias</param>
+        /// <param name="values">Value of the alias</param>
+        /// <returns>Newly created definition</returns>
         public AliasDefinition PushAlias(string identifier, IEnumerable<string> values)
         {
             if (string.IsNullOrEmpty(identifier))

@@ -54,7 +54,7 @@ namespace TypedTree.Generator.Core.Scheme
         public static bool operator !=(NodeDefinition a, NodeDefinition b) => !(a == b);
 
         /// <summary>
-        /// Attempt to get an field by name.
+        /// Attempt to get a field by name.
         /// </summary>
         /// <param name="name">Name of the field to get</param>
         /// <param name="field">Found field</param>
@@ -63,6 +63,26 @@ namespace TypedTree.Generator.Core.Scheme
         {
             field = this.Fields.FirstOrDefault(f => f.Name == name);
             return field != null;
+        }
+
+        /// <summary>
+        /// Attempt to get a field of a specific type by name.
+        /// </summary>
+        /// <param name="name">Name of the field to get</param>
+        /// <param name="field">Found field</param>
+        /// <typeparam name="T">Type of field to get</typeparam>
+        /// <returns>True if found, otherwise false</returns>
+        public bool TryGetField<T>(string name, out T field)
+            where T : INodeField
+        {
+            if (this.TryGetField(name, out var f) && f is T tf)
+            {
+                field = tf;
+                return true;
+            }
+
+            field = default;
+            return false;
         }
 
         /// <summary>

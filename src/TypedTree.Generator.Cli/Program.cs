@@ -1,5 +1,4 @@
 using System;
-using TypedTree.Generator.Core;
 
 namespace TypedTree.Generator.Cli
 {
@@ -15,7 +14,7 @@ namespace TypedTree.Generator.Cli
         public static void Main(string[] args)
         {
             Console.WriteLine($"NumArgs: {args.Length}");
-            Console.WriteLine(Class1.HelloWorld());
+            Console.WriteLine("Hello World");
         }
     }
 }

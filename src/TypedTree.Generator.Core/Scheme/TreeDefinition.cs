@@ -87,6 +87,63 @@ namespace TypedTree.Generator.Core.Scheme
         public static bool operator !=(TreeDefinition a, TreeDefinition b) => !(a == b);
 
         /// <summary>
+        /// Attempt to get an alias by identifier.
+        /// </summary>
+        /// <param name="identifier">Identifier of the alias to get</param>
+        /// <param name="alias">Found alias</param>
+        /// <returns>True if found, otherwise false</returns>
+        public bool TryGetAlias(string identifier, out AliasDefinition alias)
+        {
+            alias = this.Aliases.FirstOrDefault(a => a.Identifier == identifier);
+            return alias != null;
+        }
+
+        /// <summary>
+        /// Check if an alias with given identifier exists on this scheme.
+        /// </summary>
+        /// <param name="identifier">Identifier of the alias</param>
+        /// <returns>True if found, otherwise false</returns>
+        public bool ContainsAlias(string identifier) => this.TryGetAlias(identifier, out _);
+
+        /// <summary>
+        /// Attempt to get an enum by identifier.
+        /// </summary>
+        /// <param name="identifier">Identifier of the enum to get</param>
+        /// <param name="enum">Found enum</param>
+        /// <returns>True if found, otherwise false</returns>
+        public bool TryGetEnum(string identifier, out EnumDefinition @enum)
+        {
+            @enum = this.Enums.FirstOrDefault(e => e.Identifier == identifier);
+            return @enum != null;
+        }
+
+        /// <summary>
+        /// Check if an enum with given identifier exists on this scheme.
+        /// </summary>
+        /// <param name="identifier">Identifier of the enum</param>
+        /// <returns>True if found, otherwise false</returns>
+        public bool ContainsEnum(string identifier) => this.TryGetEnum(identifier, out _);
+
+        /// <summary>
+        /// Attempt to get an node by type.
+        /// </summary>
+        /// <param name="type">Type of the node to get</param>
+        /// <param name="node">Found node</param>
+        /// <returns>True if found, otherwise false</returns>
+        public bool TryGetNode(string type, out NodeDefinition node)
+        {
+            node = this.Nodes.FirstOrDefault(a => a.Type == type);
+            return node != null;
+        }
+
+        /// <summary>
+        /// Check if an node with given type exists on this scheme.
+        /// </summary>
+        /// <param name="type">Type of the node</param>
+        /// <returns>True if found, otherwise false</returns>
+        public bool ContainsNode(string type) => this.TryGetNode(type, out _);
+
+        /// <summary>
         /// Check if this is structurally equal to given object.
         /// </summary>
         /// <param name="obj">Object to compare to</param>
