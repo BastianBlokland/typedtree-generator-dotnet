@@ -21,7 +21,13 @@ namespace TypedTree.Generator.Core.Builder
         /// Construct a new tree-definition.
         /// </summary>
         /// <exception cref="Exceptions.AliasNotFoundException">
-        /// Thrown when 'rootAliasIdentifier' is not in the aliases list.
+        /// Thrown when an alias is referenced that is not pushed to the builder.
+        /// </exception>
+        /// <exception cref="Exceptions.EnumNotFoundException">
+        /// Thrown when an enum is referenced that is not pushed to the builder.
+        /// </exception>
+        /// <exception cref="Exceptions.NodeNotFoundException">
+        /// Thrown when an alias references a node that is not pushed to the builder.
         /// </exception>
         /// <param name="rootAliasIdentifier">Identifier for the root-alias of the tree</param>
         /// <param name="build">Callback for adding content to the tree-definition</param>
@@ -51,6 +57,13 @@ namespace TypedTree.Generator.Core.Builder
         }
 
         /// <summary>
+        /// Check if an alias with given identifier is added to this builder.
+        /// </summary>
+        /// <param name="identifier">Identifier of the alias</param>
+        /// <returns>True if found, otherwise false</returns>
+        public bool ContainsAlias(string identifier) => this.TryGetAlias(identifier, out _);
+
+        /// <summary>
         /// Attempt to get an enum that was pushed to this builder.
         /// </summary>
         /// <param name="identifier">Identifier of the enum to get</param>
@@ -61,6 +74,32 @@ namespace TypedTree.Generator.Core.Builder
             @enum = this.enums.FirstOrDefault(e => e.Identifier == identifier);
             return @enum != null;
         }
+
+        /// <summary>
+        /// Check if an enum with given identifier is added to this builder.
+        /// </summary>
+        /// <param name="identifier">Identifier of the enum</param>
+        /// <returns>True if found, otherwise false</returns>
+        public bool ContainsEnum(string identifier) => this.TryGetEnum(identifier, out _);
+
+        /// <summary>
+        /// Attempt to get an node that was pushed to this builder.
+        /// </summary>
+        /// <param name="type">Type of the node to get</param>
+        /// <param name="node">Found node</param>
+        /// <returns>True if found, otherwise false</returns>
+        public bool TryGetNode(string type, out NodeDefinition node)
+        {
+            node = this.nodes.FirstOrDefault(a => a.Type == type);
+            return node != null;
+        }
+
+        /// <summary>
+        /// Check if an node with given type is added to this builder.
+        /// </summary>
+        /// <param name="type">Type of the node</param>
+        /// <returns>True if found, otherwise false</returns>
+        public bool ContainsNode(string type) => this.TryGetNode(type, out _);
 
         /// <summary>
         /// Add an alias to the scheme.
@@ -185,8 +224,28 @@ namespace TypedTree.Generator.Core.Builder
 
         internal TreeDefinition Build(string rootAliasIdentifier)
         {
+            // Verify that root-alias exists.
             if (!this.TryGetAlias(rootAliasIdentifier, out var rootAlias))
                 throw new Exceptions.AliasNotFoundException(rootAliasIdentifier);
+
+            // Verify that aliases only reference nodes that actually exist.
+            foreach (var aliasVal in this.aliases.SelectMany(a => a.Values))
+            {
+                if (!this.ContainsNode(aliasVal))
+                    throw new Exceptions.NodeNotFoundException(aliasVal);
+            }
+
+            // Verify that all fields on the nodes only reference valid aliases / enums.
+            foreach (var nodeFieldPair in this.nodes.SelectMany(n => n.Fields.Select(f => (n, f))))
+            {
+                // If the field is an alias then verify that it exists on this builder.
+                if (nodeFieldPair.f is AliasNodeField a && !this.aliases.Contains(a.Alias))
+                    throw new Exceptions.AliasNotFoundException(a.Alias.Identifier);
+
+                // If the field is an enum then verify that it exists on this builder.
+                if (nodeFieldPair.f is EnumNodeField e && !this.enums.Contains(e.Enum))
+                    throw new Exceptions.EnumNotFoundException(e.Enum.Identifier);
+            }
 
             return new Scheme.TreeDefinition(
                 rootAlias,

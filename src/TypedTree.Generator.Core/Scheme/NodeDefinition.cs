@@ -54,11 +54,23 @@ namespace TypedTree.Generator.Core.Scheme
         public static bool operator !=(NodeDefinition a, NodeDefinition b) => !(a == b);
 
         /// <summary>
-        /// Check if this node has a field with given identifier.
+        /// Attempt to get an field by name.
         /// </summary>
-        /// <param name="identifier">Identifier to find</param>
-        /// <returns>True if a field was found, otherwise false</returns>
-        public bool HasField(string identifier) => this.Fields.Any(f => f.Name == identifier);
+        /// <param name="name">Name of the field to get</param>
+        /// <param name="field">Found field</param>
+        /// <returns>True if found, otherwise false</returns>
+        public bool TryGetField(string name, out INodeField field)
+        {
+            field = this.Fields.FirstOrDefault(f => f.Name == name);
+            return field != null;
+        }
+
+        /// <summary>
+        /// Check if field with given name exists on this node.
+        /// </summary>
+        /// <param name="name">Name of the field</param>
+        /// <returns>True if found, otherwise false</returns>
+        public bool HasField(string name) => this.TryGetField(name, out _);
 
         /// <summary>
         /// Check if this is structurally equal to given object.
