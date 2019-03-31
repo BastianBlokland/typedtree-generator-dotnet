@@ -31,6 +31,7 @@ namespace TypedTree.Generator.Core.Utilities
 {
     // xxHash32 is used for the hash code.
     // https://github.com/Cyan4973/xxHash
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public struct HashCode
     {
         private static readonly uint s_seed = 1337;
