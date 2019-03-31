@@ -1,6 +1,9 @@
 ﻿# TypedTree-Generator-Dotnet
 
-[![Build Status](https://dev.azure.com/bastian-blokland/TypedTree/_apis/build/status/BastianBlokland.typedtree-generator-dotnet?branchName=master)](https://dev.azure.com/bastian-blokland/TypedTree/_build/latest?definitionId=4&branchName=master)
+[![NuGet](https://img.shields.io/nuget/v/TypedTree.Generator.svg)](https://www.nuget.org/packages/TypedTree.Generator/)
+[![Build](https://img.shields.io/azure-devops/build/bastian-blokland/TypedTree/4.svg)](https://dev.azure.com/bastian-blokland/TypedTree/_build/latest?definitionId=4&branchName=master)
+[![Tests](https://img.shields.io/azure-devops/tests/bastian-blokland/TypedTree/4.svg)](https://dev.azure.com/bastian-blokland/TypedTree/_build/latest?definitionId=4&branchName=master)
+[![codecov](https://codecov.io/gh/BastianBlokland/typedtree-generator-dotnet/branch/master/graph/badge.svg)](https://codecov.io/gh/BastianBlokland/typedtree-generator-dotnet)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 # *Work In Progress*
