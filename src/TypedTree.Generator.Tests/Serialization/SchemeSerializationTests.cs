@@ -9,7 +9,7 @@ using TypedTree.Generator.Core.Scheme;
 using TypedTree.Generator.Core.Builder;
 using TypedTree.Generator.Core.Serialization;
 
-namespace TypedTree.Generator.Tests
+namespace TypedTree.Generator.Tests.Serialization
 {
     public sealed class SchemeSerializationTests
     {

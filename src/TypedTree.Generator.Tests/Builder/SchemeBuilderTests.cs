@@ -5,7 +5,7 @@ using TypedTree.Generator.Core.Builder;
 using TypedTree.Generator.Core.Builder.Exceptions;
 using TypedTree.Generator.Core.Scheme;
 
-namespace TypedTree.Generator.Tests
+namespace TypedTree.Generator.Tests.Builder
 {
     public sealed class SchemeBuilderTests
     {
