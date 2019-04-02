@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -14,12 +15,12 @@ namespace TypedTree.Generator.Core.Utilities
     /// Types are stored by full-name so if multiple assemblies include types with the same full-name
     /// then only 1 can be found.
     /// </remarks>
-    public sealed class TypeSet
+    public sealed class TypeCollection : IEnumerable<Type>
     {
         private readonly ImmutableArray<Type> types;
         private readonly ImmutableDictionary<string, Type> typeLookup;
 
-        internal TypeSet(IEnumerable<Type> types)
+        internal TypeCollection(IEnumerable<Type> types)
         {
             if (types == null)
                 throw new ArgumentNullException(nameof(types));
@@ -34,19 +35,14 @@ namespace TypedTree.Generator.Core.Utilities
         public int TypeCount => this.types.Length;
 
         /// <summary>
-        /// All types that belong to this set.
-        /// </summary>
-        public IEnumerable<Type> Types => this.types;
-
-        /// <summary>
         /// Create a type-set from an assembly.
         /// </summary>
         /// <param name="assembly">Assembly to get types from</param>
         /// <param name="includeReferencedAssemblies">
         /// Should types from assemblies that are referenced by the given assembly be included
         /// </param>
-        /// <returns>Newly created immutable typeset</returns>
-        public static TypeSet Create(Assembly assembly, bool includeReferencedAssemblies = true)
+        /// <returns>Newly created immutable typecollection</returns>
+        public static TypeCollection Create(Assembly assembly, bool includeReferencedAssemblies = true)
         {
             if (assembly == null)
                 throw new ArgumentNullException(nameof(assembly));
@@ -54,7 +50,7 @@ namespace TypedTree.Generator.Core.Utilities
             var types = GetAssemblies().
                 SelectMany(a => a.GetTypes().Where(IsValidType)).
                 Distinct(TypeNameComparer.Instance);
-            return new TypeSet(types);
+            return new TypeCollection(types);
 
             IEnumerable<Assembly> GetAssemblies()
             {
@@ -81,6 +77,11 @@ namespace TypedTree.Generator.Core.Utilities
                 type.GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Count() == 0 &&
                 type.Namespace != null;
         }
+
+        /// <summary>
+        /// Get an enumerator to iterate over all the types in this set.
+        /// </summary>
+        public IEnumerator<Type> GetEnumerator() => ((IEnumerable<Type>)this.types).GetEnumerator();
 
         /// <summary>
         /// Check if specified type is included in this set.
@@ -121,6 +122,11 @@ namespace TypedTree.Generator.Core.Utilities
 
             return this.typeLookup.TryGetValue(typeName, out type);
         }
+
+        /// <summary>
+        /// Get an enumerator to iterate over all the types in this set.
+        /// </summary>
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
         private sealed class TypeNameComparer : IEqualityComparer<Type>
         {
