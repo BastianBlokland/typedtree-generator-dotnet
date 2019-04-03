@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace TypedTree.Generator.Core.Utilities
 {
@@ -18,6 +19,7 @@ namespace TypedTree.Generator.Core.Utilities
         /// </remarks>
         /// <param name="types">Collection to look for types</param>
         /// <param name="targetType">Type that the implementation needs to be assignable to.</param>
+        /// <param name="ignoreRegex">If provided this regex will be used to filter the output</param>
         /// <param name="includeGenericTypes">
         /// Should generic-classes be considered as implementations
         /// </param>
@@ -25,9 +27,10 @@ namespace TypedTree.Generator.Core.Utilities
         public static IEnumerable<Type> GetImplementations(
             this IEnumerable<Type> types,
             Type targetType,
+            Regex ignoreRegex = null,
             bool includeGenericTypes = false)
         {
-            return types.Where(IsAssignableToTarget).Where(IsPlainImplementation);
+            return types.Where(IsAssignableToTarget).Where(IsPlainImplementation).Where(IsNotIgnored);
 
             bool IsAssignableToTarget(Type type) => targetType.IsAssignableFrom(type);
 
@@ -38,6 +41,13 @@ namespace TypedTree.Generator.Core.Utilities
                 !type.IsEnum &&
                 (includeGenericTypes || !type.IsGenericType) &&
                 !type.IsPrimitive;
+
+            bool IsNotIgnored(Type type)
+            {
+                if (ignoreRegex == null)
+                    return true;
+                return !ignoreRegex.IsMatch(type.FullName);
+            }
         }
     }
 }
