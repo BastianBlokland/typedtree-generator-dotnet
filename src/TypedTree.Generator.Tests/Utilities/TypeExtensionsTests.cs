@@ -1,8 +1,7 @@
 #pragma warning disable CA1812 // Avoid uninstantiated internal classes
 
-using System.Text.RegularExpressions;
-using System.Reflection;
-using System.Linq;
+using System;
+using System.Collections.Generic;
 using Xunit;
 
 using TypedTree.Generator.Core.Utilities;
@@ -11,71 +10,34 @@ namespace TypedTree.Generator.Tests.Utilities
 {
     public sealed class TypeExtensionsTests
     {
-        private interface ITestInterface
+        public static IEnumerable<object[]> GetTypeElementPairsData()
         {
+            foreach (var tuple in GetTypeElementPairs())
+                yield return new object[] { tuple.inputType, tuple.elementType };
         }
 
-        [Fact]
-        public void GetImplementations_OnlyConstructableImplementationsAreFound()
+        [Theory]
+        [MemberData(nameof(GetTypeElementPairsData))]
+        public void ElementTypesAreFound(Type inputType, Type expectedElementType)
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var typeCollection = TypeCollection.Create(assembly);
+            inputType.TryGetElementType(out var elementType);
 
-            var implementations = typeCollection.GetImplementations(typeof(ITestInterface));
-            Assert.Equal(2, implementations.Count());
-            Assert.Contains(typeof(TestImplementationB), implementations);
-            Assert.Contains(typeof(TestImplementationC), implementations);
+            Assert.Equal(expectedElementType, elementType);
         }
 
-        [Fact]
-        public void GetImplementations_IgnoredTypesAreNotFound()
+        private static IEnumerable<(Type inputType, Type elementType)> GetTypeElementPairs()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var typeCollection = TypeCollection.Create(assembly);
+            yield return (typeof(int[]), typeof(int));
+            yield return (typeof(Stack<float>), typeof(float));
+            yield return (typeof(List<string>), typeof(string));
+            yield return (typeof(Queue<double>), typeof(double));
+            yield return (typeof(HashSet<byte>), typeof(byte));
+            yield return (typeof(Dictionary<byte, string>), typeof(KeyValuePair<byte, string>));
+            yield return (typeof(List<TypeExtensionsTests>), typeof(TypeExtensionsTests));
 
-            var ignoreRegex = new Regex(".*B$");
-            var implementations = typeCollection.GetImplementations(typeof(ITestInterface), ignoreRegex);
-            Assert.Equal(new[] { typeof(TestImplementationC) }, implementations);
-        }
-
-        [Fact]
-        public void GetImplementations_SingleTypeImplementionIsFound()
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            var typeCollection = TypeCollection.Create(assembly);
-
-            var implementations = typeCollection.GetImplementations(typeof(TestStruct));
-            Assert.Equal(new[] { typeof(TestStruct) }, implementations);
-        }
-
-        [Fact]
-        public void GetImplementations_AbstractClassesAreNotReturned()
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            var typeCollection = TypeCollection.Create(assembly);
-
-            var implementations = typeCollection.GetImplementations(typeof(TestSingleAbstractClass));
-            Assert.Empty(implementations);
-        }
-
-        private struct TestStruct
-        {
-        }
-
-        private abstract class TestAbstractClassA : ITestInterface
-        {
-        }
-
-        private class TestImplementationB : TestAbstractClassA
-        {
-        }
-
-        private class TestImplementationC : ITestInterface
-        {
-        }
-
-        private abstract class TestSingleAbstractClass
-        {
+            yield return (typeof(int), null);
+            yield return (typeof(string), null);
+            yield return (typeof(TypeExtensionsTests), null);
         }
     }
 }

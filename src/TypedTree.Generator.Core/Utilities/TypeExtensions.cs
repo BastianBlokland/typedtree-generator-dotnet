@@ -1,53 +1,61 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace TypedTree.Generator.Core.Utilities
 {
     /// <summary>
-    /// Utility extensions for Types
+    /// Utility extensions for types.
     /// </summary>
     public static class TypeExtensions
     {
         /// <summary>
-        /// Get all implementations that can be assigned to given target type.
+        /// Try to find an element type for the given type.
         /// </summary>
         /// <remarks>
-        /// Implementations are considered types that can be constructed (both class or struct).
-        /// So no interfaces, abstract classes, etc.
+        /// Works for 'array-like' types:
+        /// Array, IReadOnlyList{T}, IReadOnlyCollection{T}, ICollection{T}, IList{T}
         /// </remarks>
-        /// <param name="types">Collection to look for types</param>
-        /// <param name="targetType">Type that the implementation needs to be assignable to.</param>
-        /// <param name="ignoreRegex">If provided this regex will be used to filter the output</param>
-        /// <param name="includeGenericTypes">
-        /// Should generic-classes be considered as implementations
-        /// </param>
-        /// <returns>Implementations that are assignable to given target</returns>
-        public static IEnumerable<Type> GetImplementations(
-            this IEnumerable<Type> types,
-            Type targetType,
-            Regex ignoreRegex = null,
-            bool includeGenericTypes = false)
+        /// <param name="type">Type to find the element-type for</param>
+        /// <param name="elementType">Type of element if found, otherwise null</param>
+        /// <returns>True if an element-type was found, otherwise false</returns>
+        public static bool TryGetElementType(this Type type, out Type elementType)
         {
-            return types.Where(IsAssignableToTarget).Where(IsPlainImplementation).Where(IsNotIgnored);
+            if (type == null)
+                throw new ArgumentNullException(nameof(type));
 
-            bool IsAssignableToTarget(Type type) => targetType.IsAssignableFrom(type);
-
-            bool IsPlainImplementation(Type type) =>
-                !type.IsAbstract &&
-                !type.IsInterface &&
-                !type.IsArray &&
-                !type.IsEnum &&
-                (includeGenericTypes || !type.IsGenericType) &&
-                !type.IsPrimitive;
-
-            bool IsNotIgnored(Type type)
+            // Array
+            if (type.IsArray)
             {
-                if (ignoreRegex == null)
-                    return true;
-                return !ignoreRegex.IsMatch(type.FullName);
+                elementType = type.GetElementType();
+                return true;
             }
+
+            // IReadOnlyList<T>
+            elementType = GetElementTypeFromInterface(typeof(IReadOnlyList<>));
+            if (elementType != null)
+                return true;
+
+            // IReadOnlyCollection<T>
+            elementType = GetElementTypeFromInterface(typeof(IReadOnlyCollection<>));
+            if (elementType != null)
+                return true;
+
+            // ICollection<T>
+            elementType = GetElementTypeFromInterface(typeof(ICollection<>));
+            if (elementType != null)
+                return true;
+
+            // IList<T>
+            elementType = GetElementTypeFromInterface(typeof(IList<>));
+            if (elementType != null)
+                return true;
+
+            elementType = null;
+            return false;
+
+            Type GetElementTypeFromInterface(Type interfaceType) =>
+                type.GetInterface(interfaceType.Name)?.GetGenericArguments()?.FirstOrDefault();
         }
     }
 }
