@@ -1,8 +1,9 @@
 {
   // Common plugins
   "cSpell.words": [
+    "uninstantiated",
     "xunit"
-  ],
+],
   // Search settings
   "search.useIgnoreFiles": false,
   "search.exclude": {
