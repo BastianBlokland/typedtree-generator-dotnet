@@ -15,7 +15,7 @@ namespace TypedTree.Generator.Core.Utilities
     /// Types are stored by full-name so if multiple assemblies include types with the same full-name
     /// then only 1 can be found.
     /// </remarks>
-    public sealed class TypeCollection : IEnumerable<Type>
+    public sealed class TypeCollection : ITypeCollection
     {
         private readonly ImmutableArray<Type> types;
         private readonly ImmutableDictionary<string, Type> typeLookup;
