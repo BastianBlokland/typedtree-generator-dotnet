@@ -113,7 +113,8 @@ namespace TypedTree.Generator.Core.Mapping
                 type == typeof(bool);
 
             bool IsEnum() =>
-                type.IsEnum;
+                type.IsEnum &&
+                Enum.GetValues(type).Length > 0;
 
             bool IsIgnored()
             {

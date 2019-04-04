@@ -13,6 +13,10 @@ namespace TypedTree.Generator.Tests.Mapping
 {
     public sealed class ClassifierTests
     {
+        private enum TestEmptyEnum
+        {
+        }
+
         private enum TestEnum
         {
             A,
@@ -59,6 +63,7 @@ namespace TypedTree.Generator.Tests.Mapping
 
             // Enum
             yield return (typeof(TestEnum), Classifier.Classification.Enum);
+            yield return (typeof(TestEmptyEnum), Classifier.Classification.Invalid);
 
             // Alias
             yield return (typeof(TestStruct), Classifier.Classification.Alias);
