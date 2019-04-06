@@ -7,7 +7,6 @@ using Xunit;
 using TypedTree.Generator.Core.Mapping;
 
 using FieldCollection = System.Collections.Generic.IEnumerable<(string, System.Type)>;
-using FieldSource = TypedTree.Generator.Core.Mapping.FieldFinder.FieldSource;
 
 namespace TypedTree.Generator.Tests.Mapping
 {

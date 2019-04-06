@@ -11,33 +11,6 @@ namespace TypedTree.Generator.Core.Mapping
     public static class FieldFinder
     {
         /// <summary>
-        /// Source where the gather fields from.
-        /// </summary>
-        public enum FieldSource
-        {
-            /// <summary>
-            /// Gather fields from public properties on a type.
-            /// </summary>
-            PublicProperties,
-
-            /// <summary>
-            /// Gather fields from properties (including non-public) on a type.
-            /// </summary>
-            Properties,
-
-            /// <summary>
-            /// Gather fields from the parameters of the public constructor with the most parameters.
-            /// </summary>
-            PublicConstructorParameters,
-
-            /// <summary>
-            /// Gather fields from the parameters of the constructor (including non-public) with
-            /// the most parameters.
-            /// </summary>
-            ConstructorParameters
-        }
-
-        /// <summary>
         /// Find fields on a given type.
         /// </summary>
         /// <param name="type">Type to find fields on (class or struct)</param>
@@ -50,7 +23,7 @@ namespace TypedTree.Generator.Core.Mapping
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
             if (type.IsEnum || type.IsPrimitive)
-                throw new ArgumentException("This has to be a class or a struct", nameof(type));
+                throw new ArgumentException("Type has to be a class or a struct", nameof(type));
 
             switch (source)
             {
