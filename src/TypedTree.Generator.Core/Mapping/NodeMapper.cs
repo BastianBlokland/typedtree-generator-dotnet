@@ -25,7 +25,7 @@ namespace TypedTree.Generator.Core.Mapping
         /// <param name="builder">Builder to push the node definitions to</param>
         /// <param name="context">Context object with dependencies for the mapping</param>
         /// <param name="alias">Alias whose nodes to map</param>
-        /// <exception cref="Exceptions.MissingNodeTypeException">
+        /// <exception cref="Exceptions.MissingTypeException">
         /// Thrown when a type for a node of the alias cannot be found in the context.
         /// </exception>
         /// <exception cref="Exceptions.DuplicateNodeException">
@@ -49,7 +49,7 @@ namespace TypedTree.Generator.Core.Mapping
             {
                 var identifier = alias.Values[i];
                 if (!context.Types.TryGetType(identifier, out var nodeType))
-                    throw new Exceptions.MissingNodeTypeException(identifier);
+                    throw new Exceptions.MissingTypeException(identifier);
 
                 nodes[i] = MapNode(builder, context, nodeType);
             }
