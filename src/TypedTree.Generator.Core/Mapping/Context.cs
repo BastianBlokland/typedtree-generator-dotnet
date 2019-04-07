@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 using TypedTree.Generator.Core.Utilities;
 
@@ -13,7 +14,7 @@ namespace TypedTree.Generator.Core.Mapping
         internal Context(
             ITypeCollection types,
             FieldSource fieldSource,
-            string typeIgnorePattern = null)
+            Regex typeIgnorePattern = null)
         {
             if (types == null)
                 throw new ArgumentNullException(nameof(types));
@@ -36,7 +37,7 @@ namespace TypedTree.Generator.Core.Mapping
         /// <summary>
         /// Optional regex pattern for types to ignore.
         /// </summary>
-        public string TypeIgnorePattern { get; }
+        public Regex TypeIgnorePattern { get; }
 
         /// <summary>
         /// Create a mapping context.
@@ -48,7 +49,7 @@ namespace TypedTree.Generator.Core.Mapping
         public static Context Create(
             Assembly assembly,
             FieldSource fieldSource,
-            string typeIgnorePattern = null)
+            Regex typeIgnorePattern = null)
         {
             if (assembly == null)
                 throw new ArgumentNullException(nameof(assembly));
@@ -67,7 +68,7 @@ namespace TypedTree.Generator.Core.Mapping
         public static Context Create(
             ITypeCollection types,
             FieldSource fieldSource,
-            string typeIgnorePattern = null)
+            Regex typeIgnorePattern = null)
         {
             if (types == null)
                 throw new ArgumentNullException(nameof(types));
