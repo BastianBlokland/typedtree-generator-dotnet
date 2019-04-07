@@ -58,6 +58,8 @@ namespace TypedTree.Generator.Tests.Mapping
             yield return (typeof(uint), Classifier.Classification.Number);
             yield return (typeof(long), Classifier.Classification.Number);
             yield return (typeof(ulong), Classifier.Classification.Number);
+            yield return (typeof(float), Classifier.Classification.Number);
+            yield return (typeof(double), Classifier.Classification.Number);
             yield return (typeof(string), Classifier.Classification.String);
             yield return (typeof(bool), Classifier.Classification.Boolean);
 

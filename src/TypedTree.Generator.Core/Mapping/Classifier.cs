@@ -104,7 +104,9 @@ namespace TypedTree.Generator.Core.Mapping
                 type == typeof(int) ||
                 type == typeof(uint) ||
                 type == typeof(long) ||
-                type == typeof(ulong);
+                type == typeof(ulong) ||
+                type == typeof(float) ||
+                type == typeof(double);
 
             bool IsString() =>
                 type == typeof(string);
