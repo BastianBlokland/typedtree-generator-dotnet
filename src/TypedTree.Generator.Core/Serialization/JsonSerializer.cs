@@ -38,7 +38,7 @@ namespace TypedTree.Generator.Core.Serialization
         /// <param name="tree">TreeScheme to create json for</param>
         /// <param name="mode">Mode to use when writing the json</param>
         /// <returns>Json representation of the tree</returns>
-        public static string ToJson(this TreeDefinition tree, Mode mode)
+        public static string ToJson(this TreeDefinition tree, Mode mode = Mode.Pretty)
         {
             // Create a Json.Net 'JObject' representation of the tree.
             var jsonObject = CreateSchemeJsonObject(tree);

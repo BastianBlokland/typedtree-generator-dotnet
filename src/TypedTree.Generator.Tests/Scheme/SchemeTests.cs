@@ -3,7 +3,7 @@ using Xunit;
 using TypedTree.Generator.Core.Scheme;
 using TypedTree.Generator.Core.Builder;
 
-namespace TypedTree.Generator.Tests
+namespace TypedTree.Generator.Tests.Scheme
 {
     public sealed class SchemeTests
     {
