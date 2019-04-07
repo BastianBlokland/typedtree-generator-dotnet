@@ -5,6 +5,9 @@ default: build
 # MakeFile used as a convient way for executing development utlitities.
 # --------------------------------------------------------------------------------------------------
 
+run:
+	dotnet run --project src/TypedTree.Generator.Cli/TypedTree.Generator.Cli.csproj -- $(ARGS)
+
 clean:
 	./ci/clean.sh
 
