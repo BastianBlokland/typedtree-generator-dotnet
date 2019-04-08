@@ -7,14 +7,14 @@ using TypedTree.Generator.Core.Mapping;
 
 namespace TypedTree.Generator.Cli
 {
-    public sealed class Options
+    public sealed class ProgramOptions
     {
         [Usage(ApplicationAlias = "typedtree-generator")]
         public static IEnumerable<Example> Examples
         {
             get
             {
-                yield return new Example("Generate a tree-schene", new Options
+                yield return new Example("Generate a tree-schene", new ProgramOptions
                 {
                     AssemblyFile = "Path/To/Example.dll",
                     RootType = "Game.AI.IBehaviourNode",

@@ -1,6 +1,8 @@
 using System;
 using CommandLine;
 using CommandLine.Text;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace TypedTree.Generator.Cli
 {
@@ -8,20 +10,20 @@ namespace TypedTree.Generator.Cli
     {
         public static int Main(string[] args)
         {
-            // Parse Options from args and call 'GenerateScheme' if succeeded, otherwise show help
+            // Parse Options from args and call 'MainWithOptions' method if succeeded, otherwise show help
             var parser = new Parser(settings =>
             {
                 settings.CaseInsensitiveEnumValues = true;
             });
-            var parseResult = parser.ParseArguments<Options>(args);
+            var parseResult = parser.ParseArguments<ProgramOptions>(args);
             return parseResult.MapResult(
-                options => GenerateScheme(options),
+                options => MainWithOptions(options),
                 errors =>
                 {
                     // Show help
                     var help = HelpText.AutoBuild(parseResult);
                     help.AddEnumValuesToHelpText = true;
-                    help.Copyright = "TypedTree - MIT Licence";
+                    help.Copyright = "TypedTree Generator - MIT Licence";
                     help.MaximumDisplayWidth = 100;
                     help.AddOptions(parseResult);
                     Console.Error.Write(help);
@@ -31,15 +33,35 @@ namespace TypedTree.Generator.Cli
                 });
         }
 
-        private static int GenerateScheme(Options options)
+        public static int MainWithOptions(ProgramOptions options)
         {
-            Console.WriteLine($"AssemblyFile: {options.AssemblyFile}");
-            Console.WriteLine($"FieldSource: {options.FieldSource}");
-            Console.WriteLine($"OutputPath: {options.OutputPath}");
-            Console.WriteLine($"RootType: {options.RootType}");
-            Console.WriteLine($"TypeIgnorePattern: {options.TypeIgnorePattern}");
-            Console.WriteLine($"Verbose: {options.Verbose}");
-            return 0;
+            // Configure services
+            var services = new ServiceCollection();
+            ConfigureServices(services, options.Verbose);
+
+            // Run application
+            using (var provider = services.BuildServiceProvider())
+            {
+                return provider.GetService<Application>().Run(
+                    options.AssemblyFile,
+                    options.RootType,
+                    options.FieldSource,
+                    options.TypeIgnorePattern,
+                    options.OutputPath);
+            }
+        }
+
+        private static void ConfigureServices(IServiceCollection services, bool verboseLogging)
+        {
+            // Logging
+            services.AddLogging(logConfig =>
+            {
+                logConfig.AddProvider(new ConsoleLoggerProvider()).
+                    SetMinimumLevel(verboseLogging ? LogLevel.Debug : LogLevel.Information);
+            });
+
+            // Application
+            services.AddTransient<Application>();
         }
     }
 }
