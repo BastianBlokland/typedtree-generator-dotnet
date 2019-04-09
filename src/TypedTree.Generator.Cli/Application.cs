@@ -108,9 +108,9 @@ namespace TypedTree.Generator.Cli
                 mainAssembly = loader.LoadDefaultAssembly();
                 this.logger.LogDebug($"Loaded main-assembly: '{mainAssembly.FullName}'");
             }
-            catch
+            catch (Exception e)
             {
-                this.logger.LogCritical($"Failed to load assembly: '{assemblyFile}'");
+                this.logger.LogCritical($"Failed to load '{assemblyFile}': '{e.Message}'");
                 yield break;
             }
 
