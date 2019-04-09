@@ -94,17 +94,33 @@ namespace TypedTree.Generator.Cli
 
         private IEnumerable<Assembly> LoadAssemblies(string assemblyFile)
         {
-            if (!File.Exists(assemblyFile))
+            // Determine full-path.
+            string assemblyFilePath;
+            try
             {
-                this.logger.LogCritical($"No file found at path: '{assemblyFile}'");
+                assemblyFilePath = Path.GetFullPath(assemblyFile);
+            }
+            catch
+            {
+                this.logger.LogCritical($"Unable to determine absolute path for: '{assemblyFile}'");
                 yield break;
             }
 
+            this.logger.LogTrace($"Using '{assemblyFilePath}' as root-path for loading assemblies");
+
+            // Validate file existence.
+            if (!File.Exists(assemblyFilePath))
+            {
+                this.logger.LogCritical($"No file found at path: '{assemblyFilePath}'");
+                yield break;
+            }
+
+            // Load main assembly.
             PluginLoader loader = null;
             Assembly mainAssembly = null;
             try
             {
-                loader = PluginLoader.CreateFromAssemblyFile(assemblyFile);
+                loader = PluginLoader.CreateFromAssemblyFile(assemblyFilePath);
                 mainAssembly = loader.LoadDefaultAssembly();
                 this.logger.LogDebug($"Loaded main-assembly: '{mainAssembly.FullName}'");
             }
@@ -116,6 +132,7 @@ namespace TypedTree.Generator.Cli
 
             yield return mainAssembly;
 
+            // Load referenced assemblies.
             foreach (var refAssemblyName in mainAssembly.GetReferencedAssemblies())
             {
                 if (IsSystemAssembly(refAssemblyName))
