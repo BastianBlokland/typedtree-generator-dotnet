@@ -67,9 +67,9 @@ namespace TypedTree.Generator.Core.Utilities
                 {
                     types = assembly.GetTypes();
                 }
-                catch
+                catch (Exception e)
                 {
-                    logger?.LogWarning($"Failed to load types from: '{assembly.FullName}'");
+                    logger?.LogWarning($"Failed to load types '{assembly.FullName}': '{e.Message}'");
                 }
 
                 return types?.Where(IsValidType) ?? Array.Empty<Type>();
