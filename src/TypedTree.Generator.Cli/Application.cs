@@ -110,7 +110,7 @@ namespace TypedTree.Generator.Cli
             }
             catch (Exception e)
             {
-                this.logger.LogCritical($"Failed to load '{assemblyFile}': '{e.Message}'");
+                this.logger.LogCritical($"Failed to load main-assembly '{assemblyFile}': '{e.Message}'");
                 yield break;
             }
 
@@ -130,9 +130,9 @@ namespace TypedTree.Generator.Cli
                     refAssembly = loader.LoadAssembly(refAssemblyName);
                     this.logger.LogDebug($"Loaded ref-assembly: '{refAssembly.FullName}'");
                 }
-                catch
+                catch (Exception e)
                 {
-                    this.logger.LogCritical($"Failed to load ref-assembly: '{refAssemblyName}'");
+                    this.logger.LogWarning($"Failed to load ref-assembly '{refAssemblyName}': '{e.Message}'");
                 }
 
                 if (refAssembly != null)
