@@ -56,8 +56,8 @@ namespace TypedTree.Generator.Cli
             // Logging
             services.AddLogging(logConfig =>
             {
-                logConfig.AddProvider(new ConsoleLoggerProvider()).
-                    SetMinimumLevel(verboseLogging ? LogLevel.Debug : LogLevel.Information);
+                logConfig.AddProvider(new ConsoleLoggerProvider(verboseLogging)).
+                    SetMinimumLevel(verboseLogging ? LogLevel.Trace : LogLevel.Information);
             });
 
             // Application

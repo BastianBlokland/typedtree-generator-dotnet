@@ -81,5 +81,11 @@ namespace TypedTree.Generator.Core.Scheme
             this.Name,
             this.Alias,
             this.IsArray);
+
+        /// <summary>
+        /// Get a string representation for this field.
+        /// </summary>
+        public override string ToString() =>
+            $"{this.Name}:{this.Alias.Identifier}{(this.IsArray ? "[]" : string.Empty)}";
     }
 }

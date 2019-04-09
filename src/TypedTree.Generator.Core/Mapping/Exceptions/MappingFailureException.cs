@@ -12,7 +12,7 @@ namespace TypedTree.Generator.Core.Mapping.Exceptions
         /// </summary>
         /// <param name="innerException">Exception containing the specific error</param>
         public MappingFailureException(Exception innerException)
-            : base(message: $"Mapping failed: '{innerException.Message}'")
+            : base(message: $"Mapping failed: '{innerException.Message}'", innerException)
         {
         }
     }

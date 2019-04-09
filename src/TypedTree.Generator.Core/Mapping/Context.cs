@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Logging;
 
 using TypedTree.Generator.Core.Utilities;
 
@@ -14,7 +15,8 @@ namespace TypedTree.Generator.Core.Mapping
         internal Context(
             ITypeCollection types,
             FieldSource fieldSource,
-            Regex typeIgnorePattern = null)
+            Regex typeIgnorePattern = null,
+            ILogger logger = null)
         {
             if (types == null)
                 throw new ArgumentNullException(nameof(types));
@@ -22,6 +24,7 @@ namespace TypedTree.Generator.Core.Mapping
             this.Types = types;
             this.FieldSource = fieldSource;
             this.TypeIgnorePattern = typeIgnorePattern;
+            this.Logger = logger;
         }
 
         /// <summary>
@@ -40,23 +43,9 @@ namespace TypedTree.Generator.Core.Mapping
         public Regex TypeIgnorePattern { get; }
 
         /// <summary>
-        /// Create a mapping context.
+        /// Optional logger.
         /// </summary>
-        /// <param name="assembly">Assembly to use as the source of types</param>
-        /// <param name="fieldSource">Where to look for fields on a node</param>
-        /// <param name="typeIgnorePattern">Optional regex pattern for types to ignore</param>
-        /// <returns>Newly created context</returns>
-        public static Context Create(
-            Assembly assembly,
-            FieldSource fieldSource,
-            Regex typeIgnorePattern = null)
-        {
-            if (assembly == null)
-                throw new ArgumentNullException(nameof(assembly));
-
-            var typeCollection = TypeCollection.Create(assembly);
-            return Create(typeCollection, fieldSource, typeIgnorePattern);
-        }
+        public ILogger Logger { get; }
 
         /// <summary>
         /// Create a mapping context.
@@ -64,16 +53,18 @@ namespace TypedTree.Generator.Core.Mapping
         /// <param name="types">Set of types</param>
         /// <param name="fieldSource">Where to look for fields on a node</param>
         /// <param name="typeIgnorePattern">Optional regex pattern for types to ignore</param>
+        /// <param name="logger">Optional logger</param>
         /// <returns>Newly created context</returns>
         public static Context Create(
             ITypeCollection types,
             FieldSource fieldSource,
-            Regex typeIgnorePattern = null)
+            Regex typeIgnorePattern = null,
+            ILogger logger = null)
         {
             if (types == null)
                 throw new ArgumentNullException(nameof(types));
 
-            return new Context(types, fieldSource, typeIgnorePattern);
+            return new Context(types, fieldSource, typeIgnorePattern, logger);
         }
     }
 }

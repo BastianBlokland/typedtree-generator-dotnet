@@ -5,7 +5,11 @@ namespace TypedTree.Generator.Cli
 {
     public sealed class ConsoleLoggerProvider : ILoggerProvider
     {
-        public ILogger CreateLogger(string name) => new ConsoleLogger(name);
+        public ConsoleLoggerProvider(bool verbose) => this.Verbose = verbose;
+
+        public bool Verbose { get; set; }
+
+        public ILogger CreateLogger(string name) => new ConsoleLogger(name, this.Verbose);
 
         public void Dispose()
         {
@@ -16,12 +20,30 @@ namespace TypedTree.Generator.Cli
     {
         private readonly object lockObject = new object();
         private readonly string name;
+        private readonly bool verbose;
 
-        public ConsoleLogger(string name) => this.name = name;
+        public ConsoleLogger(string name, bool verbose)
+        {
+            this.name = name;
+            this.verbose = verbose;
+        }
 
         public IDisposable BeginScope<T>(T state) => null;
 
-        public bool IsEnabled(LogLevel logLevel) => true;
+        public bool IsEnabled(LogLevel level)
+        {
+            switch (level)
+            {
+                case LogLevel.Trace:
+                case LogLevel.Debug: return this.verbose;
+                case LogLevel.Information:
+                case LogLevel.Warning:
+                case LogLevel.Error:
+                case LogLevel.Critical: return true;
+                default:
+                    throw new ArgumentException($"Unknown level: '{level}'", nameof(level));
+            }
+        }
 
         public void Log<T>(
             LogLevel level,
@@ -62,7 +84,7 @@ namespace TypedTree.Generator.Cli
             {
                 switch (level)
                 {
-                    case LogLevel.Trace:
+                    case LogLevel.Trace: return ConsoleColor.DarkGray;
                     case LogLevel.Debug: return ConsoleColor.DarkGreen;
                     case LogLevel.Information: return ConsoleColor.White;
                     case LogLevel.Warning: return ConsoleColor.DarkYellow;

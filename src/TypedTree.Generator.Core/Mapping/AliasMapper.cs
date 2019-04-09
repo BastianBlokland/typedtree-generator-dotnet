@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 using TypedTree.Generator.Core.Builder;
 using TypedTree.Generator.Core.Scheme;
@@ -52,8 +53,15 @@ namespace TypedTree.Generator.Core.Mapping
             }
             else
             {
+                var values = implementations.Select(i => i.FullName);
+
+                // Diagnostic logging.
+                context.Logger?.LogDebug($"Mapped alias '{identifier}'");
+                context.Logger?.LogTrace(
+                    $"values:\n{string.Join("\n", values.Select(n => $"* '{n}'"))}");
+
                 // Push new alias
-                return builder.PushAlias(identifier, implementations.Select(i => i.FullName));
+                return builder.PushAlias(identifier, values);
             }
         }
     }

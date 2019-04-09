@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 using TypedTree.Generator.Core.Builder;
 using TypedTree.Generator.Core.Scheme;
@@ -124,12 +125,24 @@ namespace TypedTree.Generator.Core.Mapping
                                 b.PushAliasField(field.id, aliasDefinition, field.isArray);
                                 break;
                             case Classification.Enum:
-                                var enumDefinition = builder.MapEnum(field.type);
+                                var enumDefinition = builder.MapEnum(context, field.type);
                                 b.PushEnumField(field.id, enumDefinition, field.isArray);
                                 break;
                         }
                     }
                 });
+
+                // Diagnostic logging.
+                context.Logger?.LogDebug($"Mapped node '{identifier}'");
+                if (result.Fields.Length == 0)
+                {
+                    context.Logger?.LogTrace("no fields");
+                }
+                else
+                {
+                    context.Logger?.LogTrace(
+                        $"fields:\n{string.Join("\n", result.Fields.Select(f => $"* '{f}'"))}");
+                }
 
                 // Push all the 'inner' nodes of this node.
                 foreach (var field in result.Fields)

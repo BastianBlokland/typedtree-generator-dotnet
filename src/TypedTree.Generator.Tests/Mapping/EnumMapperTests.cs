@@ -6,6 +6,7 @@ using TypedTree.Generator.Core.Mapping;
 using TypedTree.Generator.Core.Mapping.Exceptions;
 using TypedTree.Generator.Core.Scheme;
 using TypedTree.Generator.Core.Builder;
+using TypedTree.Generator.Core.Utilities;
 
 namespace TypedTree.Generator.Tests.Mapping
 {
@@ -64,12 +65,14 @@ namespace TypedTree.Generator.Tests.Mapping
         [MemberData(nameof(GetEnumAndBuilderPairsData))]
         public void EnumTypesAreMappedAccordingToSchemeRules(Type enumType, BuildEnum referenceBuilder)
         {
+            var context = CreateContext();
+
             var tree = TreeDefinitionBuilder.Create("AliasA", b =>
             {
                 b.PushAlias("AliasA", "NodeA");
                 b.PushNode("NodeA");
 
-                EnumMapper.MapEnum(b, enumType);
+                EnumMapper.MapEnum(b, context, enumType);
             });
             var expectedTree = TreeDefinitionBuilder.Create("AliasA", b =>
             {
@@ -86,13 +89,15 @@ namespace TypedTree.Generator.Tests.Mapping
         [MemberData(nameof(GetEnumsData))]
         public void EnumsCanBeMappedMultipleTimes(Type enumType)
         {
+            var context = CreateContext();
+
             TreeDefinitionBuilder.Create("AliasA", b =>
             {
                 b.PushAlias("AliasA", "NodeA");
                 b.PushNode("NodeA");
 
-                var definitionA = EnumMapper.MapEnum(b, enumType);
-                var definitionB = EnumMapper.MapEnum(b, enumType);
+                var definitionA = EnumMapper.MapEnum(b, context, enumType);
+                var definitionB = EnumMapper.MapEnum(b, context, enumType);
                 Assert.Equal(definitionA, definitionB);
             });
         }
@@ -101,10 +106,12 @@ namespace TypedTree.Generator.Tests.Mapping
         public void ThrowsIfTooBigEnumValueIsPushed() => Assert.Throws<InvalidEnumValueException>(() =>
            TreeDefinitionBuilder.Create("AliasA", b =>
            {
+               var context = CreateContext();
+
                b.PushAlias("AliasA", "NodeA");
                b.PushNode("NodeA");
 
-               EnumMapper.MapEnum(b, typeof(BigLongEnum));
+               EnumMapper.MapEnum(b, context, typeof(BigLongEnum));
            }));
 
         private static IEnumerable<(Type, BuildEnum)> GetEnumAndBuilderPairs()
@@ -132,6 +139,12 @@ namespace TypedTree.Generator.Tests.Mapping
                 ("A", 0),
                 ("B", int.MaxValue),
                 ("C", int.MinValue)));
+        }
+
+        private static Context CreateContext()
+        {
+            var typeCollection = TypeCollection.Create(typeof(EnumMapperTests).Assembly);
+            return Context.Create(typeCollection, FieldSource.Properties);
         }
     }
 }

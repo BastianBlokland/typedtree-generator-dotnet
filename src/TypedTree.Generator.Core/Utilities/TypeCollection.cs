@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 
 namespace TypedTree.Generator.Core.Utilities
 {
@@ -35,43 +36,44 @@ namespace TypedTree.Generator.Core.Utilities
         public int TypeCount => this.types.Length;
 
         /// <summary>
-        /// Create a type-set from an assembly.
+        /// Create a type-collection from a collection of assemblies.
         /// </summary>
-        /// <param name="assembly">Assembly to get types from</param>
-        /// <param name="includeReferencedAssemblies">
-        /// Should types from assemblies that are referenced by the given assembly be included
-        /// </param>
+        /// <param name="assemblies">Assemblies to get types from</param>
         /// <returns>Newly created immutable typecollection</returns>
-        public static TypeCollection Create(Assembly assembly, bool includeReferencedAssemblies = true)
+        public static TypeCollection Create(params Assembly[] assemblies) =>
+            Create(assemblies as IEnumerable<Assembly>, logger: null);
+
+        /// <summary>
+        /// Create a type-collection from a collection of assemblies.
+        /// </summary>
+        /// <param name="assemblies">Assemblies to get types from</param>
+        /// <param name="logger">Optional logger</param>
+        /// <returns>Newly created immutable typecollection</returns>
+        public static TypeCollection Create(IEnumerable<Assembly> assemblies, ILogger logger = null)
         {
-            if (assembly == null)
-                throw new ArgumentNullException(nameof(assembly));
+            if (assemblies == null)
+                throw new ArgumentNullException(nameof(assemblies));
 
-            var types = GetAssemblies().
-                SelectMany(a => a.GetTypes().Where(IsValidType)).
-                Distinct(TypeNameComparer.Instance);
-            return new TypeCollection(types);
+            return new TypeCollection(
+                types: assemblies.SelectMany(GetTypes).Distinct(TypeNameComparer.Instance));
 
-            IEnumerable<Assembly> GetAssemblies()
+            IEnumerable<Type> GetTypes(Assembly assembly)
             {
-                IEnumerable<Assembly> assemblies = new[] { assembly };
-                if (includeReferencedAssemblies)
-                {
-                    var refAssemblies = assembly.GetReferencedAssemblies().
-                        Where(IsUserAssembly).
-                        Select(assemblyName => Assembly.Load(assemblyName));
+                if (assembly == null)
+                    return Array.Empty<Type>();
 
-                    assemblies = assemblies.Concat(refAssemblies);
+                Type[] types = null;
+                try
+                {
+                    types = assembly.GetTypes();
+                }
+                catch
+                {
+                    logger?.LogWarning($"Failed to load types from: '{assembly.FullName}'");
                 }
 
-                return assemblies;
+                return types?.Where(IsValidType) ?? Array.Empty<Type>();
             }
-
-            bool IsUserAssembly(AssemblyName assemblyName) => !IsSystemAssembly(assemblyName);
-
-            bool IsSystemAssembly(AssemblyName assemblyName) =>
-                assemblyName.FullName.StartsWith("System", StringComparison.Ordinal) ||
-                assemblyName.FullName.StartsWith("Microsoft", StringComparison.Ordinal);
 
             bool IsValidType(Type type) =>
                 type.GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Count() == 0 &&

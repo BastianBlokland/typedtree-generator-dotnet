@@ -1,11 +1,11 @@
 #pragma warning disable CA1812 // Avoid uninstantiated internal classes
 
 using System.Collections.Generic;
-using System.Reflection;
 using Xunit;
 
 using TypedTree.Generator.Core.Mapping;
 using TypedTree.Generator.Core.Builder;
+using TypedTree.Generator.Core.Utilities;
 
 namespace TypedTree.Generator.Tests.Mapping
 {
@@ -22,8 +22,8 @@ namespace TypedTree.Generator.Tests.Mapping
         [Fact]
         public void TreeIsMappedAccordingToSchemeRules()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var context = Context.Create(assembly, FieldSource.Properties);
+            var typeCollection = TypeCollection.Create(typeof(TreeMapperTests).Assembly);
+            var context = Context.Create(typeCollection, FieldSource.Properties);
 
             var tree = context.MapTree($"{typeof(TreeMapperTests).FullName}+IRootInterface");
 
