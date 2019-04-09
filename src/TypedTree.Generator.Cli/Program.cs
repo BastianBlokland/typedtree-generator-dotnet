@@ -22,15 +22,21 @@ namespace TypedTree.Generator.Cli
                 {
                     // Show help
                     var help = HelpText.AutoBuild(parseResult);
+                    help.Heading = $"typedtree-generator - {GetVersion()}";
+                    help.Copyright = string.Empty;
+                    help.AutoHelp = false;
+                    help.AutoVersion = false;
                     help.AddEnumValuesToHelpText = true;
-                    help.Copyright = "TypedTree Generator - MIT Licence";
                     help.MaximumDisplayWidth = 100;
                     help.AddOptions(parseResult);
+
                     Console.Error.Write(help);
 
                     // Exit with error
                     return 1;
                 });
+
+            string GetVersion() => typeof(Program).Assembly.GetName().Version.ToString();
         }
 
         public static int MainWithOptions(ProgramOptions options)
