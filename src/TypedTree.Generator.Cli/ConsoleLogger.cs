@@ -14,6 +14,7 @@ namespace TypedTree.Generator.Cli
 
     public sealed class ConsoleLogger : ILogger
     {
+        private readonly object lockObject = new object();
         private readonly string name;
 
         public ConsoleLogger(string name) => this.name = name;
@@ -29,7 +30,18 @@ namespace TypedTree.Generator.Cli
             Exception exception,
             Func<T, Exception, string> formatter)
         {
-            Console.WriteLine($"{GetFormattedLevel()}: {formatter(state, exception)}");
+            lock (this.lockObject)
+            {
+                // Set color
+                var prevColor = Console.ForegroundColor;
+                Console.ForegroundColor = GetColor();
+
+                // Write
+                Console.WriteLine($"{GetFormattedLevel()}: {formatter(state, exception)}");
+
+                // Restore color
+                Console.ForegroundColor = prevColor;
+            }
 
             string GetFormattedLevel()
             {
@@ -41,6 +53,21 @@ namespace TypedTree.Generator.Cli
                     case LogLevel.Warning: return "warn";
                     case LogLevel.Error: return "fail";
                     case LogLevel.Critical: return "crit";
+                    default:
+                        throw new ArgumentException($"Unknown level: '{level}'", nameof(level));
+                }
+            }
+
+            ConsoleColor GetColor()
+            {
+                switch (level)
+                {
+                    case LogLevel.Trace:
+                    case LogLevel.Debug: return ConsoleColor.DarkGreen;
+                    case LogLevel.Information: return ConsoleColor.White;
+                    case LogLevel.Warning: return ConsoleColor.DarkYellow;
+                    case LogLevel.Error:
+                    case LogLevel.Critical: return ConsoleColor.Red;
                     default:
                         throw new ArgumentException($"Unknown level: '{level}'", nameof(level));
                 }
