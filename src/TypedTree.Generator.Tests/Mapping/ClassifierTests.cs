@@ -39,9 +39,7 @@ namespace TypedTree.Generator.Tests.Mapping
             Type inputType,
             Classifier.Classification expectedClassification)
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var typeCollection = TypeCollection.Create(assembly);
-
+            var typeCollection = TypeCollection.Create(typeof(ClassifierTests).Assembly);
             var classification = typeCollection.Classify(inputType, typeIgnoreRegex: new Regex(".*Ignored$"));
 
             Assert.Equal(expectedClassification, classification);

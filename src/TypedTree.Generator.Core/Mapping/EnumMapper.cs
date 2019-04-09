@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 using TypedTree.Generator.Core.Builder;
 using TypedTree.Generator.Core.Scheme;
@@ -21,6 +22,7 @@ namespace TypedTree.Generator.Core.Mapping
         /// the existing enum matches the signature of the new enum.
         /// </remarks>
         /// <param name="builder">Builder to push the enum definition to</param>
+        /// <param name="context">Context object with dependencies for the mapping</param>
         /// <param name="enumType">Enum-type to map</param>
         /// <exception cref="Exceptions.DuplicateEnumException">
         /// Thrown when two different enums have the same full-name.
@@ -29,10 +31,15 @@ namespace TypedTree.Generator.Core.Mapping
         /// Thrown when an enum value is not convertible to a 32 bit signed integer.
         /// </exception>
         /// <returns>Definition that the type was mapped to</returns>
-        public static EnumDefinition MapEnum(this TreeDefinitionBuilder builder, Type enumType)
+        public static EnumDefinition MapEnum(
+            this TreeDefinitionBuilder builder,
+            Context context,
+            Type enumType)
         {
             if (builder == null)
                 throw new ArgumentNullException(nameof(builder));
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
             if (enumType == null)
                 throw new ArgumentNullException(nameof(enumType));
             if (!enumType.IsEnum)
@@ -50,6 +57,11 @@ namespace TypedTree.Generator.Core.Mapping
             }
             else
             {
+                // Diagnostic logging.
+                context.Logger?.LogDebug($"Mapped enum '{identifier}'");
+                context.Logger?.LogTrace(
+                    $"entries:\n{string.Join("\n", entries.Select(e => $"* '{e}'"))}");
+
                 // Push new enum
                 return builder.PushEnum(identifier, entries);
             }

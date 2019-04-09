@@ -2,6 +2,7 @@
   // Common plugins
   "dotnet-test-explorer.testProjectPath": "src/TypedTree.Generator.Tests/TypedTree.Generator.Tests.csproj",
   "cSpell.words": [
+    "crit",
     "uninstantiated",
     "xunit"
 ],

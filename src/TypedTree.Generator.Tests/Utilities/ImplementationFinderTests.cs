@@ -18,8 +18,7 @@ namespace TypedTree.Generator.Tests.Utilities
         [Fact]
         public void OnlyConstructableImplementationsAreFound()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var typeCollection = TypeCollection.Create(assembly);
+            var typeCollection = TypeCollection.Create(typeof(ImplementationFinderTests).Assembly);
 
             var implementations = typeCollection.GetImplementations(typeof(ITestInterface));
             Assert.Equal(2, implementations.Count());
@@ -30,8 +29,7 @@ namespace TypedTree.Generator.Tests.Utilities
         [Fact]
         public void IgnoredTypesAreNotFound()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var typeCollection = TypeCollection.Create(assembly);
+            var typeCollection = TypeCollection.Create(typeof(ImplementationFinderTests).Assembly);
 
             var ignoreRegex = new Regex(".*B$");
             var implementations = typeCollection.GetImplementations(typeof(ITestInterface), ignoreRegex);
@@ -41,8 +39,7 @@ namespace TypedTree.Generator.Tests.Utilities
         [Fact]
         public void SingleTypeImplementionIsFound()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var typeCollection = TypeCollection.Create(assembly);
+            var typeCollection = TypeCollection.Create(typeof(ImplementationFinderTests).Assembly);
 
             var implementations = typeCollection.GetImplementations(typeof(TestStruct));
             Assert.Equal(new[] { typeof(TestStruct) }, implementations);
@@ -51,8 +48,7 @@ namespace TypedTree.Generator.Tests.Utilities
         [Fact]
         public void AbstractClassesAreNotReturned()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var typeCollection = TypeCollection.Create(assembly);
+            var typeCollection = TypeCollection.Create(typeof(ImplementationFinderTests).Assembly);
 
             var implementations = typeCollection.GetImplementations(typeof(TestSingleAbstractClass));
             Assert.Empty(implementations);

@@ -100,6 +100,6 @@ namespace TypedTree.Generator.Core.Scheme
         /// <summary>
         /// Get a string representation for this entry.
         /// </summary>
-        public override string ToString() => $"{this.Name}:{this.Value}";
+        public override string ToString() => $"{this.Value}:{this.Name}";
     }
 }

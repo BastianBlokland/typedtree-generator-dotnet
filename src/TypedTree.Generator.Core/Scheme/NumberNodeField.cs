@@ -71,5 +71,11 @@ namespace TypedTree.Generator.Core.Scheme
         public override int GetHashCode() => HashCode.Combine(
             this.Name,
             this.IsArray);
+
+        /// <summary>
+        /// Get a string representation for this field.
+        /// </summary>
+        public override string ToString() =>
+            $"{this.Name}:number{(this.IsArray ? "[]" : string.Empty)}";
     }
 }
