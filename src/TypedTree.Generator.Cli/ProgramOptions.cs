@@ -26,6 +26,9 @@ namespace TypedTree.Generator.Cli
         [Option('a', "assembly", Required = true, HelpText = "Assembly file to generate the scheme from")]
         public string AssemblyFile { get; set; }
 
+        [Option('d', "dependencies", Required = false, HelpText = "Directories to look for dependencies")]
+        public IEnumerable<string> DependencyDirectories { get; set; }
+
         [Option('r', "root-type", Required = true, HelpText = "FullName of type to use as the root of the tree")]
         public string RootType { get; set; }
 

@@ -1,15 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
-using McMaster.NETCore.Plugins;
 using Microsoft.Extensions.Logging;
 
 using TypedTree.Generator.Core.Mapping;
 using TypedTree.Generator.Core.Scheme;
-using TypedTree.Generator.Core.Utilities;
 using TypedTree.Generator.Core.Serialization;
 
 namespace TypedTree.Generator.Cli
@@ -28,20 +24,23 @@ namespace TypedTree.Generator.Cli
 
         public int Run(
             string assemblyFile,
+            IEnumerable<string> dependencyDirectories,
             string rootType,
             FieldSource fieldSource,
             Regex typeIgnorePattern,
             string outputPath)
         {
-            // Load all the assemblies (the provided assembly and the assemblies that are referenced).
-            var assemblies = this.LoadAssemblies(assemblyFile).ToArray();
-            if (assemblies == null || assemblies.Length == 0)
-                return 1;
-            this.logger.LogDebug($"Finished loading '{assemblies.Length}' assemblies");
+            if (assemblyFile == null)
+                throw new ArgumentNullException(nameof(assemblyFile));
+            if (dependencyDirectories == null)
+                throw new ArgumentNullException(nameof(dependencyDirectories));
+            if (rootType == null)
+                throw new ArgumentNullException(nameof(rootType));
 
-            // Load all the types from those assemblies.
-            var typeCollection = TypeCollection.Create(assemblies, this.logger);
-            this.logger.LogDebug($"Finished loading '{typeCollection.TypeCount}' types");
+            // Load types from given assembly.
+            var typeCollection = TypeLoader.TryLoad(assemblyFile, dependencyDirectories, this.logger);
+            if (typeCollection == null)
+                return 1;
 
             // Verify that root-type can be found in those types.
             if (!typeCollection.TryGetType(rootType, out _))
@@ -90,75 +89,6 @@ namespace TypedTree.Generator.Cli
             }
 
             return 0;
-        }
-
-        private IEnumerable<Assembly> LoadAssemblies(string assemblyFile)
-        {
-            // Determine full-path.
-            string assemblyFilePath;
-            try
-            {
-                assemblyFilePath = Path.GetFullPath(assemblyFile);
-            }
-            catch
-            {
-                this.logger.LogCritical($"Unable to determine absolute path for: '{assemblyFile}'");
-                yield break;
-            }
-
-            this.logger.LogTrace($"Using '{assemblyFilePath}' as root-path for loading assemblies");
-
-            // Validate file existence.
-            if (!File.Exists(assemblyFilePath))
-            {
-                this.logger.LogCritical($"No file found at path: '{assemblyFilePath}'");
-                yield break;
-            }
-
-            // Load main assembly.
-            PluginLoader loader = null;
-            Assembly mainAssembly = null;
-            try
-            {
-                loader = PluginLoader.CreateFromAssemblyFile(assemblyFilePath);
-                mainAssembly = loader.LoadDefaultAssembly();
-                this.logger.LogDebug($"Loaded main-assembly: '{mainAssembly.FullName}'");
-            }
-            catch (Exception e)
-            {
-                this.logger.LogCritical($"Failed to load main-assembly '{assemblyFile}': '{e.Message}'");
-                yield break;
-            }
-
-            yield return mainAssembly;
-
-            // Load referenced assemblies.
-            foreach (var refAssemblyName in mainAssembly.GetReferencedAssemblies())
-            {
-                if (IsSystemAssembly(refAssemblyName))
-                {
-                    this.logger.LogDebug($"Skipping sys-assembly: '{refAssemblyName}'");
-                    continue;
-                }
-
-                Assembly refAssembly = null;
-                try
-                {
-                    refAssembly = loader.LoadAssembly(refAssemblyName);
-                    this.logger.LogDebug($"Loaded ref-assembly: '{refAssembly.FullName}'");
-                }
-                catch (Exception e)
-                {
-                    this.logger.LogWarning($"Failed to load ref-assembly '{refAssemblyName}': '{e.Message}'");
-                }
-
-                if (refAssembly != null)
-                    yield return refAssembly;
-            }
-
-            bool IsSystemAssembly(AssemblyName assemblyName) =>
-                assemblyName.FullName.StartsWith("System", StringComparison.Ordinal) ||
-                assemblyName.FullName.StartsWith("Microsoft", StringComparison.Ordinal);
         }
     }
 }

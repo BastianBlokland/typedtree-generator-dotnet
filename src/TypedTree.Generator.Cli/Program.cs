@@ -50,6 +50,7 @@ namespace TypedTree.Generator.Cli
             {
                 return provider.GetService<Application>().Run(
                     options.AssemblyFile,
+                    options.DependencyDirectories,
                     options.RootType,
                     options.FieldSource,
                     options.TypeIgnorePattern,

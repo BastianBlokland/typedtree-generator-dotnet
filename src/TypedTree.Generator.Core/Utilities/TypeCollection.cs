@@ -69,15 +69,26 @@ namespace TypedTree.Generator.Core.Utilities
                 }
                 catch (Exception e)
                 {
-                    logger?.LogWarning($"Failed to load types '{assembly.FullName}': '{e.Message}'");
+                    if (logger != null)
+                        logger?.LogWarning($"Failed to load types '{assembly.FullName}': '{e.Message.ToDistinctLines("* ")}'");
                 }
 
                 return types?.Where(IsValidType) ?? Array.Empty<Type>();
             }
 
-            bool IsValidType(Type type) =>
-                type.GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Count() == 0 &&
-                type.Namespace != null;
+            bool IsValidType(Type type)
+            {
+                try
+                {
+                    return
+                        type.GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Count() == 0 &&
+                        type.Namespace != null;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
         }
 
         /// <summary>
