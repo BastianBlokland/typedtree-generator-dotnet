@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+    <CodeAnalysisRuleSet>../analyzers.ruleset</CodeAnalysisRuleSet>
+
+    <AssemblyName>TypedTree.Generator.GlobalTool</AssemblyName>
+    <RootNamespace>TypedTree.Generator.GlobalTool</RootNamespace>
+
+    <PackageId>TypedTree.Generator.GlobalTool</PackageId>
+    <ToolCommandName>typedtree-generator</ToolCommandName>
+    <PackAsTool>true</PackAsTool>
+
+    <Title>TypedTree scheme generator global tool</Title>
+    <Description>
+    Global tool that can be used to generate scheme files for the typedtree-editor:
+    https://github.com/bastianblokland/typedtree-editor
+    </Description>
+    <Authors>Bastian Blokland</Authors>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/BastianBlokland/typedtree-generator-dotnet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Project reference -->
+    <ProjectReference Include="../TypedTree.Generator.Cli/TypedTree.Generator.Cli.csproj" />
+
+    <!-- Sourcelink -->
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05" PrivateAssets="All" />
+
+    <!-- Static code analysis -->
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <AdditionalFiles Include="../stylecop.json" />
+
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+
+    <!-- License -->
+    <None Include="../../LICENSE" Pack="true" PackagePath="" />
+
+  </ItemGroup>
+</Project>

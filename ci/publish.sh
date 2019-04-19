@@ -32,6 +32,7 @@ publish ()
 
 publish TypedTree.Generator.Core
 publish TypedTree.Generator.Cli
+publish TypedTree.Generator.GlobalTool
 
 info "Finished publishing"
 exit 0
