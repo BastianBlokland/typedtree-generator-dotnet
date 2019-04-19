@@ -1,0 +1,90 @@
+{
+  "$type": "Example.Ai.Sequence",
+  "children": [
+    {
+      "$type": "Example.Ai.Say",
+      "text": "Let me think...",
+      "time": 1
+    },
+    {
+      "$type": "Example.Ai.Selector",
+      "children": [
+        {
+          "$type": "Example.Ai.Sequence",
+          "children": [
+            {
+              "$type": "Example.Ai.MatchString",
+              "text": "hello",
+              "mode": 1
+            },
+            {
+              "$type": "Example.Ai.Say",
+              "text": "Hello back",
+              "time": 1
+            }
+          ]
+        },
+        {
+          "$type": "Example.Ai.Sequence",
+          "children": [
+            {
+              "$type": "Example.Ai.MatchNumber",
+              "number": 1337
+            },
+            {
+              "$type": "Example.Ai.Say",
+              "text": "Thats elite of you!",
+              "time": 1
+            }
+          ]
+        },
+        {
+          "$type": "Example.Ai.Sequence",
+          "children": [
+            {
+              "$type": "Example.Ai.Say",
+              "text": "No idea what you mean..",
+              "time": 1
+            },
+            {
+              "$type": "Example.Ai.Selector",
+              "children": [
+                {
+                  "$type": "Example.Ai.Sequence",
+                  "children": [
+                    {
+                      "$type": "Example.Ai.MatchAnyNumber"
+                    },
+                    {
+                      "$type": "Example.Ai.Say",
+                      "text": "But i know its a number",
+                      "time": 1
+                    }
+                  ]
+                },
+                {
+                  "$type": "Example.Ai.Sequence",
+                  "children": [
+                    {
+                      "$type": "Example.Ai.Inverter",
+                      "child": {
+                        "$type": "Example.Ai.MatchString",
+                        "text": "Dude",
+                        "mode": 1
+                      }
+                    },
+                    {
+                      "$type": "Example.Ai.Say",
+                      "text": "But i know its not 'Dude'",
+                      "time": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
