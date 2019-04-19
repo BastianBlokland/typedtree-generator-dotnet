@@ -9,10 +9,16 @@
 |----------|-------------|--------------|
 | [![NuGet](https://img.shields.io/nuget/v/TypedTree.Generator.Cli.svg)](https://www.nuget.org/packages/TypedTree.Generator.Cli/) | [![NuGet](https://img.shields.io/nuget/v/TypedTree.Generator.GlobalTool.svg)](https://www.nuget.org/packages/TypedTree.Generator.GlobalTool/) | [![NuGet](https://img.shields.io/nuget/v/TypedTree.Generator.Core.svg)](https://www.nuget.org/packages/TypedTree.Generator.Core/) |
 
-# *Work In Progress*
-
 Dotnet cli tool for generating treescheme files for use in the  [**TypedTree-editor**](https://github.com/bastianblokland/typedtree-editor)
 
 ## Description
 To avoid having to handwrite treescheme files you can generated them based on the dotnet class
 structure of your tree (for example a behaviour tree structure).
+
+## Usage
+There are 3 different ways to use the generator:
+| Usecase | Project | Documentation |
+|---------|---------|---------------|
+| Build integration | [**Cli**](https://www.nuget.org/packages/TypedTree.Generator.Cli/) | [Cli Readme](https://github.com/BastianBlokland/typedtree-generator-dotnet/tree/master/src/TypedTree.Generator.Cli/readme.md) |
+| Command line | [**GlobalTool**](https://www.nuget.org/packages/TypedTree.Generator.GlobalTool/) | [GlobalTool Readme](https://github.com/BastianBlokland/typedtree-generator-dotnet/tree/master/src/TypedTree.Generator.GlobalTool/readme.md) |
+| Manual library integration | [**Core**](https://www.nuget.org/packages/TypedTree.Generator.Core/) | [Core Readme](https://github.com/BastianBlokland/typedtree-generator-dotnet/tree/master/src/TypedTree.Generator.Core/readme.md) |

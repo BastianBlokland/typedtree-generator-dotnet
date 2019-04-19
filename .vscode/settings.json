@@ -2,10 +2,14 @@
   // Common plugins
   "dotnet-test-explorer.testProjectPath": "src/TypedTree.Generator.Tests/TypedTree.Generator.Tests.csproj",
   "cSpell.words": [
+    "codecov",
     "crit",
+    "treescheme",
+    "typedtree",
     "uninstantiated",
+    "usecase",
     "xunit"
-],
+  ],
   // Search settings
   "search.useIgnoreFiles": false,
   "search.exclude": {
