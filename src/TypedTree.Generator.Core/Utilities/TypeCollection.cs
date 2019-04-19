@@ -75,9 +75,19 @@ namespace TypedTree.Generator.Core.Utilities
                 return types?.Where(IsValidType) ?? Array.Empty<Type>();
             }
 
-            bool IsValidType(Type type) =>
-                type.GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Count() == 0 &&
-                type.Namespace != null;
+            bool IsValidType(Type type)
+            {
+                try
+                {
+                    return
+                        type.GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Count() == 0 &&
+                        type.Namespace != null;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
         }
 
         /// <summary>
