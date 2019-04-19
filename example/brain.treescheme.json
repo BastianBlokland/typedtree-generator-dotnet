@@ -1,0 +1,102 @@
+{
+  "rootAlias": "Example.Ai.INode",
+  "aliases": [
+    {
+      "identifier": "Example.Ai.INode",
+      "values": [
+        "Example.Ai.Inverter",
+        "Example.Ai.MatchAnyNumber",
+        "Example.Ai.MatchNumber",
+        "Example.Ai.MatchString",
+        "Example.Ai.Say",
+        "Example.Ai.Selector",
+        "Example.Ai.Sequence"
+      ]
+    }
+  ],
+  "enums": [
+    {
+      "identifier": "Example.Ai.MatchString+Mode",
+      "values": [
+        {
+          "value": 0,
+          "name": "MatchCase"
+        },
+        {
+          "value": 1,
+          "name": "IgnoreCase"
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "nodeType": "Example.Ai.Inverter",
+      "fields": [
+        {
+          "name": "child",
+          "valueType": "Example.Ai.INode"
+        }
+      ]
+    },
+    {
+      "nodeType": "Example.Ai.MatchAnyNumber",
+      "fields": []
+    },
+    {
+      "nodeType": "Example.Ai.MatchNumber",
+      "fields": [
+        {
+          "name": "number",
+          "valueType": "number"
+        }
+      ]
+    },
+    {
+      "nodeType": "Example.Ai.MatchString",
+      "fields": [
+        {
+          "name": "text",
+          "valueType": "string"
+        },
+        {
+          "name": "mode",
+          "valueType": "Example.Ai.MatchString+Mode"
+        }
+      ]
+    },
+    {
+      "nodeType": "Example.Ai.Say",
+      "fields": [
+        {
+          "name": "text",
+          "valueType": "string"
+        },
+        {
+          "name": "time",
+          "valueType": "number"
+        }
+      ]
+    },
+    {
+      "nodeType": "Example.Ai.Selector",
+      "fields": [
+        {
+          "name": "children",
+          "valueType": "Example.Ai.INode",
+          "isArray": true
+        }
+      ]
+    },
+    {
+      "nodeType": "Example.Ai.Sequence",
+      "fields": [
+        {
+          "name": "children",
+          "valueType": "Example.Ai.INode",
+          "isArray": true
+        }
+      ]
+    }
+  ]
+}

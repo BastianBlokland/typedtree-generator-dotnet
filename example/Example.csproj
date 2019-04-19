@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AssemblyName>Example</AssemblyName>
+  </PropertyGroup>
+
+  <!-- Generate the scheme on build -->
+  <Target Name="GenerateBrainScheme" AfterTargets="Build">
+    <Exec Command="dotnet typedtree-generator \
+    -a $(OutputPath)Example.dll \
+    -r Example.Ai.INode \
+    -s PublicConstructorParameters \
+    -o brain.treescheme.json"/>
+  </Target>
+
+  <ItemGroup>
+    <!-- Dependencies -->
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+
+    <!-- Files -->
+    <None Update="brain.tree.json" CopyToOutputDirectory="PreserveNewest" />
+
+    <!-- Tools -->
+    <DotNetCliToolReference Include="TypedTree.Generator.Cli" Version="*" />
+
+  </ItemGroup>
+
+</Project>
