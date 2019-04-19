@@ -10,7 +10,7 @@ source ./ci/utils.sh
 verifyCommand dotnet
 
 info "Starting build"
-dotnet build src/TypedTree.Generator.sln
+withRetry dotnet build src/TypedTree.Generator.sln
 
 info "Finished build"
 exit 0

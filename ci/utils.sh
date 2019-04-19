@@ -64,3 +64,21 @@ fileDoesNotExist ()
     fi
     return 0
 }
+
+withRetry ()
+{
+    local n=1
+    local max=3
+    local delay=5
+    while true; do "$@" && break ||
+    {
+        if [[ $n -lt $max ]]; then
+            ((n++))
+            warn "Command '$@' failed. Attempt $n/$max:"
+            sleep $delay;
+        else
+            fail "Command '$@' has failed after $n attempts."
+        fi
+    }
+    done
+}
