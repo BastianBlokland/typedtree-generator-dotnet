@@ -11,9 +11,19 @@ using TypedTree.Generator.Core.Utilities;
 
 namespace TypedTree.Generator.Cli
 {
-    public static class TypeLoader
+    /// <summary>
+    /// Class responsible for loading a <see cref="ITypeCollection"/>
+    /// </summary>
+    internal static class TypeLoader
     {
-        public static ITypeCollection TryLoad(
+        /// <summary>
+        /// Attempt to load a <see cref="ITypeCollection"/> from a Assembly path.
+        /// </summary>
+        /// <param name="assemblyPath">Path to the assembly file</param>
+        /// <param name="dependencyDirectories">List of directories to search for dependant assemblies</param>
+        /// <param name="logger">Optional logger to provide diagnostic output</param>
+        /// <returns><see cref="ITypeCollection"/> if successfull otherwise null</returns>
+        internal static ITypeCollection TryLoad(
             string assemblyPath,
             IEnumerable<string> dependencyDirectories,
             ILogger logger = null)

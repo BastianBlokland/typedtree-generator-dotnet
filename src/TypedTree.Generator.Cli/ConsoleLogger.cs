@@ -3,20 +3,31 @@ using Microsoft.Extensions.Logging;
 
 namespace TypedTree.Generator.Cli
 {
-    public sealed class ConsoleLoggerProvider : ILoggerProvider
+    internal sealed class ConsoleLoggerProvider : ILoggerProvider
     {
-        public ConsoleLoggerProvider(bool verbose) => this.Verbose = verbose;
+        internal ConsoleLoggerProvider(bool verbose) => this.Verbose = verbose;
 
+        /// <summary>
+        /// Will loggers created from this provider use verbose logging.
+        /// </summary>
         public bool Verbose { get; set; }
 
+        /// <summary>
+        /// Create a new logger with given name.
+        /// </summary>
+        /// <param name="name">Name of the logger</param>
+        /// <returns>Newly created logger</returns>
         public ILogger CreateLogger(string name) => new ConsoleLogger(name, this.Verbose);
 
+        /// <summary>
+        /// Dispose of the provider.
+        /// </summary>
         public void Dispose()
         {
         }
     }
 
-    public sealed class ConsoleLogger : ILogger
+    internal sealed class ConsoleLogger : ILogger
     {
         private readonly object lockObject = new object();
         private readonly string name;

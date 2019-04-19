@@ -6,8 +6,16 @@ using Microsoft.Extensions.Logging;
 
 namespace TypedTree.Generator.Cli
 {
+    /// <summary>
+    /// Main program class, responsible for parsing arguments and running Application logic.
+    /// </summary>
     public static class Program
     {
+        /// <summary>
+        /// Entry point for the cli-tool.
+        /// </summary>
+        /// <param name="args">Arguments provided to the tool</param>
+        /// <returns>Exit code</returns>
         public static int Main(string[] args)
         {
             // Parse Options from args and call 'MainWithOptions' method if succeeded, otherwise show help
@@ -39,6 +47,11 @@ namespace TypedTree.Generator.Cli
             string GetVersion() => typeof(Program).Assembly.GetName().Version.ToString();
         }
 
+        /// <summary>
+        /// Entry point with structured options.
+        /// </summary>
+        /// <param name="options">Structured options for the application logic</param>
+        /// <returns>Exitcode</returns>
         public static int MainWithOptions(ProgramOptions options)
         {
             // Configure services
