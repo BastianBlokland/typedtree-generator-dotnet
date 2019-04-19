@@ -9,7 +9,7 @@
     <AssemblyName>dotnet-typedtree-generator</AssemblyName>
     <RootNamespace>TypedTree.Generator.Cli</RootNamespace>
 
-    <PackageId>TypedTree.Generator</PackageId>
+    <PackageId>TypedTree.Generator.Cli</PackageId>
     <PackageType>DotnetCliTool</PackageType>
     <Title>TypedTree scheme generator cli tool</Title>
     <Description>
@@ -24,6 +24,7 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

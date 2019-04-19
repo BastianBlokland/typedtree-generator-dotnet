@@ -10,10 +10,17 @@ using TypedTree.Generator.Core.Serialization;
 
 namespace TypedTree.Generator.Cli
 {
+    /// <summary>
+    /// Application logic for the cli tool.
+    /// </summary>
     public sealed class Application
     {
         private readonly ILogger logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Application"/> class.
+        /// </summary>
+        /// <param name="logger">Optional logger to use during execution</param>
         public Application(ILogger<Application> logger)
         {
             if (logger == null)
@@ -22,6 +29,16 @@ namespace TypedTree.Generator.Cli
             this.logger = logger;
         }
 
+        /// <summary>
+        /// Run the generator tool.
+        /// </summary>
+        /// <param name="assemblyFile">Assembly to generate the scheme for</param>
+        /// <param name="dependencyDirectories">Optional paths to look for dependencies</param>
+        /// <param name="rootType">Root type of the tree</param>
+        /// <param name="fieldSource">Source to find fields</param>
+        /// <param name="typeIgnorePattern">Optional regex pattern for ignoring types</param>
+        /// <param name="outputPath">Path where to generate the output scheme to</param>
+        /// <returns>Exit code</returns>
         public int Run(
             string assemblyFile,
             IEnumerable<string> dependencyDirectories,
