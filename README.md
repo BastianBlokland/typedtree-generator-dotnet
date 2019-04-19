@@ -24,6 +24,8 @@ There are 3 different ways to use the generator:
 | Command line | [**GlobalTool**](https://www.nuget.org/packages/TypedTree.Generator.GlobalTool/) | [GlobalTool Readme](https://github.com/BastianBlokland/typedtree-generator-dotnet/tree/master/src/TypedTree.Generator.GlobalTool/readme.md) |
 | Manual library integration | [**Core**](https://www.nuget.org/packages/TypedTree.Generator.Core/) | [Core Readme](https://github.com/BastianBlokland/typedtree-generator-dotnet/tree/master/src/TypedTree.Generator.Core/readme.md) |
 
+## Example
+An example can be found in the [**Example**](https://github.com/BastianBlokland/typedtree-generator-dotnet/tree/master/src/example) directory.
 
 ## Supported types
 ### Primitives
