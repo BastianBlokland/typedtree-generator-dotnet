@@ -49,7 +49,8 @@ namespace TypedTree.Generator.Cli
             }
             catch (Exception e)
             {
-                logger?.LogCritical($"Failed to load assembly: {e.Message}");
+                if (logger != null)
+                    logger?.LogCritical($"Failed to load assembly: {e.Message.ToDistinctLines()}");
                 return Array.Empty<Assembly>();
             }
 
@@ -77,7 +78,8 @@ namespace TypedTree.Generator.Cli
             }
             catch (Exception e)
             {
-                logger?.LogCritical($"Failed to load assembly: {e.Message}");
+                if (logger != null)
+                    logger?.LogCritical($"Failed to load assembly: {e.Message.ToDistinctLines()}");
                 return Array.Empty<Assembly>();
             }
 

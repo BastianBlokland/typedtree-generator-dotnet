@@ -69,7 +69,8 @@ namespace TypedTree.Generator.Core.Utilities
                 }
                 catch (Exception e)
                 {
-                    logger?.LogWarning($"Failed to load types '{assembly.FullName}': '{e.Message}'");
+                    if (logger != null)
+                        logger?.LogWarning($"Failed to load types '{assembly.FullName}': '{e.Message.ToDistinctLines("* ")}'");
                 }
 
                 return types?.Where(IsValidType) ?? Array.Empty<Type>();
