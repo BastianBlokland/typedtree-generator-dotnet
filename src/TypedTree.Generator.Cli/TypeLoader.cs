@@ -13,15 +13,33 @@ namespace TypedTree.Generator.Cli
 {
     public static class TypeLoader
     {
-        public static ITypeCollection TryLoad(string assemblyPath, ILogger logger = null)
+        public static ITypeCollection TryLoad(
+            string assemblyPath,
+            IEnumerable<string> dependencyDirectories,
+            ILogger logger = null)
         {
+            if (assemblyPath == null)
+                throw new ArgumentNullException(nameof(assemblyPath));
+            if (dependencyDirectories == null)
+                throw new ArgumentNullException(nameof(dependencyDirectories));
+
+            // Verify that dependency paths exists.
+            foreach (var dependencyDirectory in dependencyDirectories)
+            {
+                if (!Directory.Exists(dependencyDirectory))
+                {
+                    logger?.LogCritical($"Dependency directory '{dependencyDirectory}' cannot be found");
+                    return null;
+                }
+            }
+
             // Create load context.
             var loadContext = CreateLoadContext(assemblyPath, logger);
             if (loadContext == null)
                 return null;
 
             // Load assemblies.
-            var assemblies = LoadAssemblyFromPath(loadContext, assemblyPath, logger);
+            var assemblies = LoadAssemblyFromPath(loadContext, assemblyPath, dependencyDirectories, logger);
             logger?.LogDebug($"Loaded {assemblies.Count} assemblies");
 
             // Load types.
@@ -33,6 +51,7 @@ namespace TypedTree.Generator.Cli
         private static IReadOnlyList<Assembly> LoadAssemblyFromPath(
             AssemblyLoadContext loadContext,
             string path,
+            IEnumerable<string> dependencyDirectories,
             ILogger logger = null)
         {
             // Validate path.
@@ -50,7 +69,7 @@ namespace TypedTree.Generator.Cli
             catch (Exception e)
             {
                 if (logger != null)
-                    logger?.LogCritical($"Failed to load assembly: {e.Message.ToDistinctLines()}");
+                    logger?.LogWarning($"Failed to load assembly: {e.Message.ToDistinctLines()}");
                 return Array.Empty<Assembly>();
             }
 
@@ -58,7 +77,10 @@ namespace TypedTree.Generator.Cli
             foreach (var referencedAssemblyName in output[0].GetReferencedAssemblies())
             {
                 if (!IsAssemblyLoaded(referencedAssemblyName))
-                    output.AddRange(LoadAssemblyFromName(loadContext, referencedAssemblyName, logger));
+                {
+                    output.AddRange(
+                        LoadAssemblyFromName(loadContext, referencedAssemblyName, dependencyDirectories, logger));
+                }
             }
 
             return output;
@@ -67,9 +89,32 @@ namespace TypedTree.Generator.Cli
         private static IReadOnlyList<Assembly> LoadAssemblyFromName(
             AssemblyLoadContext loadContext,
             AssemblyName assemblyName,
+            IEnumerable<string> dependencyDirectories,
             ILogger logger = null)
         {
-            // Load assembly.
+            // If assembly exists in any of the dependency paths then load it from there.
+            var dependencyPath = dependencyDirectories.
+                Select(d =>
+                {
+                    try
+                    {
+                        return
+                            Directory.EnumerateFiles(d, $"{assemblyName.Name}.dll", SearchOption.AllDirectories).
+                            FirstOrDefault();
+                    }
+                    catch (Exception)
+                    {
+                        return null;
+                    }
+                }).
+                Where(p => p != null).
+                FirstOrDefault();
+            if (!string.IsNullOrEmpty(dependencyPath))
+            {
+                return LoadAssemblyFromPath(loadContext, dependencyPath, dependencyDirectories, logger);
+            }
+
+            // Otherwise load by name from the context.
             var output = new List<Assembly>();
             try
             {
@@ -79,7 +124,7 @@ namespace TypedTree.Generator.Cli
             catch (Exception e)
             {
                 if (logger != null)
-                    logger?.LogCritical($"Failed to load assembly: {e.Message.ToDistinctLines()}");
+                    logger?.LogWarning($"Failed to load assembly: {e.Message.ToDistinctLines()}");
                 return Array.Empty<Assembly>();
             }
 
@@ -87,14 +132,17 @@ namespace TypedTree.Generator.Cli
             foreach (var referencedAssemblyName in output[0].GetReferencedAssemblies())
             {
                 if (!IsAssemblyLoaded(referencedAssemblyName))
-                    output.AddRange(LoadAssemblyFromName(loadContext, referencedAssemblyName, logger));
+                {
+                    output.AddRange(
+                        LoadAssemblyFromName(loadContext, referencedAssemblyName, dependencyDirectories, logger));
+                }
             }
 
             return output;
         }
 
         private static bool IsAssemblyLoaded(AssemblyName assemblyName) =>
-            AppDomain.CurrentDomain.GetAssemblies().Any(a => a.GetName().FullName == assemblyName.FullName);
+            AppDomain.CurrentDomain.GetAssemblies().Any(a => a.GetName().Name == assemblyName.Name);
 
         private static AssemblyLoadContext CreateLoadContext(string assemblyPath, ILogger logger = null)
         {

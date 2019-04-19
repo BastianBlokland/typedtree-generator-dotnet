@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
@@ -23,13 +24,21 @@ namespace TypedTree.Generator.Cli
 
         public int Run(
             string assemblyFile,
+            IEnumerable<string> dependencyDirectories,
             string rootType,
             FieldSource fieldSource,
             Regex typeIgnorePattern,
             string outputPath)
         {
+            if (assemblyFile == null)
+                throw new ArgumentNullException(nameof(assemblyFile));
+            if (dependencyDirectories == null)
+                throw new ArgumentNullException(nameof(dependencyDirectories));
+            if (rootType == null)
+                throw new ArgumentNullException(nameof(rootType));
+
             // Load types from given assembly.
-            var typeCollection = TypeLoader.TryLoad(assemblyFile, this.logger);
+            var typeCollection = TypeLoader.TryLoad(assemblyFile, dependencyDirectories, this.logger);
             if (typeCollection == null)
                 return 1;
 
