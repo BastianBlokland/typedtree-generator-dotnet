@@ -1,6 +1,6 @@
 ﻿# TypedTree-Generator-Dotnet
 
-[![NuGet](https://img.shields.io/nuget/v/TypedTree.Generator.svg)](https://www.nuget.org/packages/TypedTree.Generator/)
+[![NuGet](https://img.shields.io/nuget/v/TypedTree.Generator.svg)](https://www.nuget.org/packages/TypedTree.Generator.Cli/)
 [![Build](https://img.shields.io/azure-devops/build/bastian-blokland/TypedTree/4/master.svg)](https://dev.azure.com/bastian-blokland/TypedTree/_build/latest?definitionId=4&branchName=master)
 [![Tests](https://img.shields.io/azure-devops/tests/bastian-blokland/TypedTree/4/master.svg)](https://dev.azure.com/bastian-blokland/TypedTree/_build/latest?definitionId=4&branchName=master)
 [![codecov](https://codecov.io/gh/BastianBlokland/typedtree-generator-dotnet/branch/master/graph/badge.svg)](https://codecov.io/gh/BastianBlokland/typedtree-generator-dotnet)
