@@ -40,6 +40,7 @@ package ()
 
 package TypedTree.Generator.Core
 package TypedTree.Generator.Cli
+package TypedTree.Generator.GlobalTool
 
 info "Finished packaging"
 exit 0
