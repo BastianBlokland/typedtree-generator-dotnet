@@ -22,6 +22,7 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/BastianBlokland/typedtree-generator-dotnet</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
 
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
@@ -50,6 +51,9 @@
 
     <!-- License -->
     <None Include="../../LICENSE" Pack="true" PackagePath="" />
+
+    <!-- Documentation -->
+    <None Include="readme.md" Pack="true" PackagePath="" />
 
   </ItemGroup>
 </Project>
