@@ -15,7 +15,7 @@ verifyCommand dotnet
 info "Starting tests"
 
 # Build the solution in Debug configuration (So that Debug.Asserts will fire)
-dotnet build --configuration Debug src/TypedTree.Generator.sln
+withRetry dotnet build --configuration Debug src/TypedTree.Generator.sln
 
 # Run test (And collect coverage using coverlet)
 dotnet test src/TypedTree.Generator.Tests/TypedTree.Generator.Tests.csproj \
