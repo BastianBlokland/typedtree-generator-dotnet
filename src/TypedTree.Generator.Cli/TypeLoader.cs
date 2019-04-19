@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using McMaster.NETCore.Plugins.Loader;
@@ -14,80 +15,96 @@ namespace TypedTree.Generator.Cli
     {
         public static ITypeCollection TryLoad(string assemblyPath, ILogger logger = null)
         {
-            // Determine full-path.
-            string assemblyFilePath;
-            try
-            {
-                assemblyFilePath = Path.GetFullPath(assemblyPath);
-            }
-            catch
-            {
-                logger?.LogCritical($"Unable to determine absolute path for: '{assemblyPath}'");
-                return null;
-            }
-
-            // Validate file existence.
-            if (!File.Exists(assemblyFilePath))
-            {
-                logger?.LogCritical($"No file found at path: '{assemblyFilePath}'");
-                return null;
-            }
-
             // Create load context.
-            var loadContext = CreateLoadContext(assemblyFilePath, logger);
+            var loadContext = CreateLoadContext(assemblyPath, logger);
+            if (loadContext == null)
+                return null;
 
             // Load assemblies.
-            var assemblies = LoadAssemblies();
+            var assemblies = LoadAssemblyFromPath(loadContext, assemblyPath, logger);
             logger?.LogDebug($"Loaded {assemblies.Count} assemblies");
 
+            // Load types.
             var typeCollection = TypeCollection.Create(assemblies, logger);
             logger?.LogDebug($"Loaded {typeCollection.TypeCount} types");
             return typeCollection;
-
-            IReadOnlyList<Assembly> LoadAssemblies()
-            {
-                Assembly mainAssembly = null;
-                try
-                {
-                    mainAssembly = loadContext.LoadFromAssemblyPath(assemblyFilePath);
-                    logger?.LogTrace($"Loaded main-assembly: '{mainAssembly.FullName}'");
-                }
-                catch (Exception e)
-                {
-                    logger?.LogCritical($"Failed to load main-assembly: {e.Message}");
-                    return null;
-                }
-
-                var result = new List<Assembly> { mainAssembly };
-                foreach (var referencedAssemblyName in mainAssembly.GetReferencedAssemblies())
-                {
-                    Assembly refAssembly = null;
-                    try
-                    {
-                        refAssembly = loadContext.LoadFromAssemblyName(referencedAssemblyName);
-                        logger?.LogTrace($"Loaded ref-assembly: '{refAssembly.FullName}'");
-                    }
-                    catch (Exception e)
-                    {
-                        logger?.LogCritical(
-                            $"Failed to load referenced-assembly '{referencedAssemblyName}': {e.Message}");
-                    }
-
-                    if (refAssembly != null)
-                        result.Add(refAssembly);
-                }
-
-                return result;
-            }
         }
 
-        private static AssemblyLoadContext CreateLoadContext(string assemblyFilePath, ILogger logger = null)
+        private static IReadOnlyList<Assembly> LoadAssemblyFromPath(
+            AssemblyLoadContext loadContext,
+            string path,
+            ILogger logger = null)
         {
-            var mainAssemblyName = Path.GetFileNameWithoutExtension(assemblyFilePath);
+            // Validate path.
+            var validatedPath = ValidateFilePath(path, logger);
+            if (validatedPath == null)
+                return Array.Empty<Assembly>();
+
+            // Load assembly.
+            var output = new List<Assembly>();
+            try
+            {
+                output.Add(loadContext.LoadFromAssemblyPath(validatedPath));
+                logger?.LogTrace($"Loaded assembly: '{output[0].FullName}'");
+            }
+            catch (Exception e)
+            {
+                logger?.LogCritical($"Failed to load assembly: {e.Message}");
+                return Array.Empty<Assembly>();
+            }
+
+            // Load referenced assemblies.
+            foreach (var referencedAssemblyName in output[0].GetReferencedAssemblies())
+            {
+                if (!IsAssemblyLoaded(referencedAssemblyName))
+                    output.AddRange(LoadAssemblyFromName(loadContext, referencedAssemblyName, logger));
+            }
+
+            return output;
+        }
+
+        private static IReadOnlyList<Assembly> LoadAssemblyFromName(
+            AssemblyLoadContext loadContext,
+            AssemblyName assemblyName,
+            ILogger logger = null)
+        {
+            // Load assembly.
+            var output = new List<Assembly>();
+            try
+            {
+                output.Add(loadContext.LoadFromAssemblyName(assemblyName));
+                logger?.LogTrace($"Loaded assembly: '{output[0].FullName}'");
+            }
+            catch (Exception e)
+            {
+                logger?.LogCritical($"Failed to load assembly: {e.Message}");
+                return Array.Empty<Assembly>();
+            }
+
+            // Load referenced assemblies.
+            foreach (var referencedAssemblyName in output[0].GetReferencedAssemblies())
+            {
+                if (!IsAssemblyLoaded(referencedAssemblyName))
+                    output.AddRange(LoadAssemblyFromName(loadContext, referencedAssemblyName, logger));
+            }
+
+            return output;
+        }
+
+        private static bool IsAssemblyLoaded(AssemblyName assemblyName) =>
+            AppDomain.CurrentDomain.GetAssemblies().Any(a => a.GetName().FullName == assemblyName.FullName);
+
+        private static AssemblyLoadContext CreateLoadContext(string assemblyPath, ILogger logger = null)
+        {
+            var validatedPath = ValidateFilePath(assemblyPath, logger);
+            if (validatedPath == null)
+                return null;
+
+            var mainAssemblyName = Path.GetFileNameWithoutExtension(validatedPath);
             var builder = new AssemblyLoadContextBuilder();
 
             // Set base directory.
-            var baseDir = Path.GetDirectoryName(assemblyFilePath);
+            var baseDir = Path.GetDirectoryName(validatedPath);
             builder.SetBaseDirectory(baseDir);
             logger?.LogTrace($"Base directory: '{baseDir}'");
 
@@ -104,6 +121,30 @@ namespace TypedTree.Generator.Cli
             builder.TryAddAdditionalProbingPathFromRuntimeConfig(pluginRuntimeConfigFile, includeDevConfig: true, out _);
 
             return builder.Build();
+        }
+
+        private static string ValidateFilePath(string path, ILogger logger = null)
+        {
+            // Determine full-path.
+            string fullPath;
+            try
+            {
+                fullPath = Path.GetFullPath(path);
+            }
+            catch
+            {
+                logger?.LogCritical($"Unable to determine absolute path for: '{path}'");
+                return null;
+            }
+
+            // Validate file existence.
+            if (!File.Exists(fullPath))
+            {
+                logger?.LogCritical($"No file found at path: '{fullPath}'");
+                return null;
+            }
+
+            return fullPath;
         }
     }
 }
