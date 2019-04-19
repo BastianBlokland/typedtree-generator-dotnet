@@ -1,6 +1,6 @@
 ﻿# **TypedTree-Generator** Example.
 
-Very simple example showing a command-line bot using a form of a [**Behaviour tree**](https://en.wikipedia.org/wiki/Behavior_tree_(artificial_intelligence,_robotics_and_control))
+Very simple example showing a command-line bot using a form of a [**Behaviour tree**](https://en.wikipedia.org/wiki/Behavior_tree))
 
 *NOTE: The behaviour-tree classes in this example are purely as an example, the library doesn't place any restrictions on how you structure your tree data.*
 
