@@ -80,9 +80,7 @@ namespace TypedTree.Generator.Core.Utilities
             {
                 try
                 {
-                    return
-                        type.GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Count() == 0 &&
-                        type.Namespace != null;
+                    return type.GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Count() == 0;
                 }
                 catch
                 {
