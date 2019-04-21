@@ -1,8 +1,8 @@
 # **TypedTree-Generator** Core library.
 
-Library that can be used to generated scheme files for the [**TypedTree-Editor**](https://bastian.tech/tree/)
+Library that can be used to generate scheme files for the [**TypedTree-Editor**](https://bastian.tech/tree/)
 
-Can be used for more complex integration into a build pipeline, more simple use-cases consider one of the pre-made tools:
+Can be used for more complex integration into a build pipeline, for simple use-cases consider one of the pre-made tools:
 * [**TypedTree.Generator.Cli**](https://www.nuget.org/packages/TypedTree.Generator.Cli/)
 * [**TypedTree.Generator.GlobalTool**](https://www.nuget.org/packages/TypedTree.Generator.GlobalTool/)
 
@@ -25,6 +25,7 @@ Steps for generating a scheme:
 using TypedTree.Generator.Core.Mapping;
 using TypedTree.Generator.Core.Scheme;
 using TypedTree.Generator.Core.Serialization;
+using TypedTree.Generator.Core.Utilities;
 ```
 2. Create a ITypeCollection:
 ```c#
