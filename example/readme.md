@@ -1,8 +1,8 @@
 ﻿# **TypedTree-Generator** Example.
 
-Very simple example showing a command-line bot using a form of a [**Behaviour tree**](https://en.wikipedia.org/wiki/Behavior_tree))
+Very simple example showing a command-line bot using a form of [**Behaviour tree**](https://en.wikipedia.org/wiki/Behavior_tree))
 
-*NOTE: The behaviour-tree classes in this example are purely as an example, the library doesn't place any restrictions on how you structure your tree data.*
+*NOTE: The behaviour-tree classes are purely as an example, the library doesn't place any restrictions on how you structure your tree data.*
 
 The types in the `Examples.Ai` namespace are forming the tree with `Example.Ai.INode` being the root interface.
 
