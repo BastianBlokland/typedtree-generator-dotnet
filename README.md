@@ -12,8 +12,8 @@
 Dotnet cli tool for generating treescheme files for use in the  [**TypedTree-editor**](https://github.com/bastianblokland/typedtree-editor)
 
 ## Description
-To avoid having to handwrite treescheme files you can generated them based on the dotnet class
-structure of your tree (for example a behaviour tree structure).
+To avoid having to handwrite treescheme files you can generate them based on the dotnet class
+structure of your tree (for example a behaviour tree).
 
 ## Usage
 There are 3 different ways to use the generator:
@@ -25,7 +25,7 @@ There are 3 different ways to use the generator:
 | Manual library integration | [**Core**](https://www.nuget.org/packages/TypedTree.Generator.Core/) | [Core Readme](https://github.com/BastianBlokland/typedtree-generator-dotnet/tree/master/src/TypedTree.Generator.Core/readme.md) |
 
 ## Example
-An example can be found in the [**Example**](https://github.com/BastianBlokland/typedtree-generator-dotnet/tree/master/example) directory.
+An example can be found in the [**example**](https://github.com/BastianBlokland/typedtree-generator-dotnet/tree/master/example) directory.
 
 ## Supported types
 ### Primitives
