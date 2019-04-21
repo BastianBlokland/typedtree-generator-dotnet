@@ -1,6 +1,6 @@
 # **TypedTree-Generator** Cli tool.
 
-Can be used to generated scheme files for the [**TypedTree-Editor**](https://bastian.tech/tree/)
+Can be used to generate scheme files for the [**TypedTree-Editor**](https://bastian.tech/tree/)
 
 ## Installation
 
