@@ -6,7 +6,7 @@ Can be used to generate scheme files for the [**TypedTree-Editor**](https://bast
 
 Add a reference to the cli-tool to a `ItemGroup` section your of your csproj.
 ```xml
-<DotNetCliToolReference Include="TypedTree.Generator.Cli" Version="1.0.*" />
+<DotNetCliToolReference Include="TypedTree.Generator.Cli" Version="1.1.*" />
 ```
 
 ## Usage
