@@ -2,7 +2,10 @@ using System.Collections.Generic;
 
 namespace Example.Ai
 {
-    public class Sequence : INode
+    /// <summary>
+    /// Executes child nodes, will stop at the first child that returns failure.
+    /// </summary>
+    internal class Sequence : INode
     {
         private readonly IReadOnlyList<INode> children;
 

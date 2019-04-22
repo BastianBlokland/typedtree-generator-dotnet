@@ -3,7 +3,10 @@ using System.Collections.Generic;
 
 namespace Example.Ai
 {
-    public class MatchAnyNumber : INode
+    /// <summary>
+    /// Returns successfull if the user typed any number.
+    /// </summary>
+    internal class MatchAnyNumber : INode
     {
         public NodeResult Evaluate(string input)
         {

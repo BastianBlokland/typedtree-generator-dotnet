@@ -2,7 +2,10 @@ using System.Collections.Generic;
 
 namespace Example.Ai
 {
-    public class Selector : INode
+    /// <summary>
+    /// Executes child nodes, will stop at the first child that returns successfull.
+    /// </summary>
+    internal class Selector : INode
     {
         private readonly IReadOnlyList<INode> children;
 

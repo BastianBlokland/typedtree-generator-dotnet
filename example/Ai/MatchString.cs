@@ -3,7 +3,10 @@ using System.Collections.Generic;
 
 namespace Example.Ai
 {
-    public class MatchString : INode
+    /// <summary>
+    /// Returns successfull if the user typed a specific string.
+    /// </summary>
+    internal class MatchString : INode
     {
         public enum Mode
         {

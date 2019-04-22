@@ -1,6 +1,6 @@
 namespace Example.Ai
 {
-    public interface INode
+    internal interface INode
     {
         NodeResult Evaluate(string input);
 
