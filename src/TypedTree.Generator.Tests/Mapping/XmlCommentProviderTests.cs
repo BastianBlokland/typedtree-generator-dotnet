@@ -24,7 +24,7 @@ $@"<?xml version=""1.0""?>
         </member>
     </members>
 </doc>";
-            Assert.True(XmlCommentProvider.TryParse(xml, out var provider));
+            Assert.True(XmlNodeCommentProvider.TryParse(xml, out var provider));
             Assert.Equal("Test line 1.\nTest line 2.\n", provider.GetComment(this.GetType()));
         }
 
@@ -42,7 +42,7 @@ $@"<?xml version=""1.0""?>
         </member>
     </members>
 </doc>";
-            Assert.True(XmlCommentProvider.TryParse(xml, out var provider));
+            Assert.True(XmlNodeCommentProvider.TryParse(xml, out var provider));
             Assert.Null(provider.GetComment(this.GetType()));
         }
 
@@ -58,7 +58,7 @@ $@"<?xml version=""1.0""?>
     <members>
     </members>
 </doc>";
-            Assert.True(XmlCommentProvider.TryParse(xml, out var provider));
+            Assert.True(XmlNodeCommentProvider.TryParse(xml, out var provider));
             Assert.Null(provider.GetComment(this.GetType()));
         }
     }

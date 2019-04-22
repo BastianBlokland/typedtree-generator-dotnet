@@ -15,7 +15,7 @@ namespace TypedTree.Generator.Core.Mapping
             ITypeCollection types,
             FieldSource fieldSource,
             Regex typeIgnorePattern = null,
-            ICommentProvider commentProvider = null,
+            INodeCommentProvider commentProvider = null,
             ILogger logger = null)
         {
             if (types == null)
@@ -46,7 +46,7 @@ namespace TypedTree.Generator.Core.Mapping
         /// <summary>
         /// Optional provider for node-comments to be added to the scheme.
         /// </summary>
-        public ICommentProvider CommentProvider { get; }
+        public INodeCommentProvider CommentProvider { get; }
 
         /// <summary>
         /// Optional logger.
@@ -66,7 +66,7 @@ namespace TypedTree.Generator.Core.Mapping
             ITypeCollection types,
             FieldSource fieldSource,
             Regex typeIgnorePattern = null,
-            ICommentProvider commentProvider = null,
+            INodeCommentProvider commentProvider = null,
             ILogger logger = null)
         {
             if (types == null)

@@ -3,9 +3,9 @@
 namespace TypedTree.Generator.Core.Mapping
 {
     /// <summary>
-    /// Interface for a comment provider.
+    /// Interface for a provider of node comments.
     /// </summary>
-    public interface ICommentProvider
+    public interface INodeCommentProvider
     {
         /// <summary>
         /// Get a comment for given type.

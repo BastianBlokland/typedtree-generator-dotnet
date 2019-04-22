@@ -6,24 +6,24 @@ using System.Xml;
 namespace TypedTree.Generator.Core.Mapping
 {
     /// <summary>
-    /// Implementation of <see cref="ICommentProvider"/> that parses a doc-comment output xml file.
+    /// Implementation of <see cref="INodeCommentProvider"/> that parses a doc-comment output xml file.
     /// </summary>
-    public sealed class XmlCommentProvider : ICommentProvider
+    public sealed class XmlNodeCommentProvider : INodeCommentProvider
     {
         private readonly XmlDocument document;
 
-        internal XmlCommentProvider(XmlDocument document)
+        internal XmlNodeCommentProvider(XmlDocument document)
         {
             this.document = document ?? throw new ArgumentNullException(nameof(document));
         }
 
         /// <summary>
-        /// Attempt to parse a <see cref="XmlCommentProvider"/> from given doc-comment stream.
+        /// Attempt to parse a <see cref="XmlNodeCommentProvider"/> from given doc-comment stream.
         /// </summary>
         /// <param name="xmlStream">Stream containing doc-comment xml to parse</param>
         /// <param name="provider">Provider if parsed successfully, otherwise null</param>
         /// <returns>True if parsed successfully, otherwise false</returns>
-        public static bool TryParse(Stream xmlStream, out XmlCommentProvider provider)
+        public static bool TryParse(Stream xmlStream, out XmlNodeCommentProvider provider)
         {
             if (xmlStream == null)
                 throw new ArgumentNullException(nameof(xmlStream));
@@ -32,7 +32,7 @@ namespace TypedTree.Generator.Core.Mapping
             try
             {
                 doc.Load(xmlStream);
-                provider = new XmlCommentProvider(doc);
+                provider = new XmlNodeCommentProvider(doc);
                 return true;
             }
             catch (XmlException)
@@ -43,12 +43,12 @@ namespace TypedTree.Generator.Core.Mapping
         }
 
         /// <summary>
-        /// Attempt to parse a <see cref="XmlCommentProvider"/> from given doc-comment xml string.
+        /// Attempt to parse a <see cref="XmlNodeCommentProvider"/> from given doc-comment xml string.
         /// </summary>
         /// <param name="xml">Xml containing doc-comment content to parse</param>
         /// <param name="provider">Provider if parsed successfully, otherwise null</param>
         /// <returns>True if parsed successfully, otherwise false</returns>
-        public static bool TryParse(string xml, out XmlCommentProvider provider)
+        public static bool TryParse(string xml, out XmlNodeCommentProvider provider)
         {
             if (string.IsNullOrEmpty(xml))
                 throw new ArgumentException($"Invalid xml: '{xml}' provided", nameof(xml));
@@ -57,7 +57,7 @@ namespace TypedTree.Generator.Core.Mapping
             try
             {
                 doc.LoadXml(xml);
-                provider = new XmlCommentProvider(doc);
+                provider = new XmlNodeCommentProvider(doc);
                 return true;
             }
             catch (XmlException)
