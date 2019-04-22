@@ -11,11 +11,11 @@ Can be used for more complex integration into a build pipeline, for simple use-c
 There are two ways to add the nuget package:
 1. Run:
 ```bash
-dotnet add package TypedTree.Generator.Core --version 1.0.*
+dotnet add package TypedTree.Generator.Core --version 1.1.*
 ```
 2. Add the following to a `ItemGroup` section of your csproj:
 ```xml
-<PackageReference Include="TypedTree.Generator.Core" Version="1.0.*" />
+<PackageReference Include="TypedTree.Generator.Core" Version="1.1.*" />
 ```
 
 ## Usage
