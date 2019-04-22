@@ -61,7 +61,10 @@ namespace TypedTree.Generator.Tests.Serialization
                 tree: TreeDefinitionBuilder.Create("AliasA", b =>
                 {
                     b.PushAlias("AliasA", "NodeA");
-                    b.PushNode("NodeA");
+                    b.PushNode("NodeA", nb =>
+                    {
+                        nb.Comment = "This is a usefull node";
+                    });
                 }),
                 json: @"{
                     ""rootAlias"": ""AliasA"",
@@ -70,7 +73,11 @@ namespace TypedTree.Generator.Tests.Serialization
                     ],
                     ""enums"": [ ],
                     ""nodes"": [
-                        { ""nodeType"": ""NodeA"", ""fields"": [] }
+                        {
+                            ""nodeType"": ""NodeA"",
+                            ""comment"": ""This is a usefull node"",
+                            ""fields"": []
+                        }
                     ]
                 }"
             );

@@ -12,7 +12,7 @@ namespace TypedTree.Generator.Core.Scheme
     /// </summary>
     public sealed class NodeDefinition : IEquatable<NodeDefinition>
     {
-        internal NodeDefinition(string type, ImmutableArray<INodeField> fields)
+        internal NodeDefinition(string type, string comment, ImmutableArray<INodeField> fields)
         {
             if (string.IsNullOrEmpty(type))
                 throw new ArgumentException($"Invalid type: '{type}'", nameof(type));
@@ -23,6 +23,7 @@ namespace TypedTree.Generator.Core.Scheme
             Debug.Assert(fields.Select(f => f.Name).IsUnique(), "Field names must be unique");
 
             this.Type = type;
+            this.Comment = comment;
             this.Fields = fields;
         }
 
@@ -30,6 +31,11 @@ namespace TypedTree.Generator.Core.Scheme
         /// Identifier for this node-type.
         /// </summary>
         public string Type { get; }
+
+        /// <summary>
+        /// Optional comment about this node.
+        /// </summary>
+        public string Comment { get; }
 
         /// <summary>
         /// Fields that this node can have.
@@ -110,6 +116,7 @@ namespace TypedTree.Generator.Core.Scheme
         public bool Equals(NodeDefinition other) =>
             other != null &&
             other.Type == this.Type &&
+            other.Comment == this.Comment &&
             other.Fields.SequenceEqual(this.Fields);
 
         /// <summary>
@@ -117,6 +124,7 @@ namespace TypedTree.Generator.Core.Scheme
         /// </summary>
         public override int GetHashCode() => HashCode.Combine(
             this.Type,
+            this.Comment ?? "",
             this.Fields.GetSequenceHashCode());
     }
 }

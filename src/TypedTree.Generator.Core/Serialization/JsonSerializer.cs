@@ -124,6 +124,8 @@ namespace TypedTree.Generator.Core.Serialization
         {
             var obj = new JObject();
             obj["nodeType"] = node.Type;
+            if (!string.IsNullOrEmpty(node.Comment))
+                obj["comment"] = node.Comment;
             obj["fields"] = new JArray(node.Fields.Select(CreateFieldJsonObject).ToArray());
             return obj;
         }
