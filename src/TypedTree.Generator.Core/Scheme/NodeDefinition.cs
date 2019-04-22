@@ -124,7 +124,7 @@ namespace TypedTree.Generator.Core.Scheme
         /// </summary>
         public override int GetHashCode() => HashCode.Combine(
             this.Type,
-            this.Comment ?? "",
+            this.Comment ?? string.Empty,
             this.Fields.GetSequenceHashCode());
     }
 }

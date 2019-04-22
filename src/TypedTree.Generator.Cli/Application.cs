@@ -71,7 +71,7 @@ namespace TypedTree.Generator.Cli
                 typeCollection,
                 fieldSource,
                 typeIgnorePattern,
-                this.logger.IsEnabled(LogLevel.Debug) ? this.logger : null);
+                logger: this.logger.IsEnabled(LogLevel.Debug) ? this.logger : null);
 
             // Map the tree.
             TreeDefinition tree = null;
