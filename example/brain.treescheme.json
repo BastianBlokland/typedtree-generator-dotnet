@@ -32,6 +32,7 @@
   "nodes": [
     {
       "nodeType": "Example.Ai.Inverter",
+      "comment": "Invert the result of the child.\n",
       "fields": [
         {
           "name": "child",
@@ -41,10 +42,12 @@
     },
     {
       "nodeType": "Example.Ai.MatchAnyNumber",
+      "comment": "Returns successfull if the user typed any number.\n",
       "fields": []
     },
     {
       "nodeType": "Example.Ai.MatchNumber",
+      "comment": "Returns successful if the user typed a specific number.\n",
       "fields": [
         {
           "name": "number",
@@ -54,6 +57,7 @@
     },
     {
       "nodeType": "Example.Ai.MatchString",
+      "comment": "Returns successful if the user typed a specific string.\n",
       "fields": [
         {
           "name": "text",
@@ -67,6 +71,7 @@
     },
     {
       "nodeType": "Example.Ai.Say",
+      "comment": "Print given text to the console.\nWill wait for given time before continuing.\n",
       "fields": [
         {
           "name": "text",
@@ -80,6 +85,7 @@
     },
     {
       "nodeType": "Example.Ai.Selector",
+      "comment": "Executes child nodes, will stop at the first child that returns successful.\n",
       "fields": [
         {
           "name": "children",
@@ -90,6 +96,7 @@
     },
     {
       "nodeType": "Example.Ai.Sequence",
+      "comment": "Executes child nodes, will stop at the first child that returns failure.\n",
       "fields": [
         {
           "name": "children",
