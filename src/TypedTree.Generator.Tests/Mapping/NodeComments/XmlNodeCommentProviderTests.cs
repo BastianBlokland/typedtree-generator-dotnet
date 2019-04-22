@@ -4,7 +4,7 @@ using TypedTree.Generator.Core.Mapping.NodeComments;
 
 namespace TypedTree.Generator.Tests.Mapping.NodeComments
 {
-    public sealed class XmlCommentProviderTests
+    public sealed class XmlNodeCommentProviderTests
     {
         [Fact]
         public void CommentsCanBeRetrievedFromXml()
@@ -16,7 +16,7 @@ $@"<?xml version=""1.0""?>
         <name>Test</name>
     </assembly>
     <members>
-        <member name=""T:{typeof(XmlCommentProviderTests).FullName}"">
+        <member name=""T:{typeof(XmlNodeCommentProviderTests).FullName}"">
             <summary>
             Test line 1.
             Test line 2.
@@ -38,7 +38,7 @@ $@"<?xml version=""1.0""?>
         <name>Test</name>
     </assembly>
     <members>
-        <member name=""T:{typeof(XmlCommentProviderTests).FullName}"">
+        <member name=""T:{typeof(XmlNodeCommentProviderTests).FullName}"">
         </member>
     </members>
 </doc>";

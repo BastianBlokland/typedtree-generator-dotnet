@@ -5,7 +5,7 @@ using TypedTree.Generator.Core.Mapping.NodeComments;
 
 namespace TypedTree.Generator.Tests.Mapping.NodeComments
 {
-    public sealed class ManualCommentProviderTests
+    public sealed class ManualNodeCommentProviderTests
     {
         [Fact]
         public void EnteredCommentsCanBeRetrieved()
