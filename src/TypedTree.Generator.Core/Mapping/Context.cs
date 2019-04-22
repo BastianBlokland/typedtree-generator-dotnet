@@ -16,7 +16,7 @@ namespace TypedTree.Generator.Core.Mapping
             ITypeCollection types,
             FieldSource fieldSource,
             Regex typeIgnorePattern = null,
-            INodeCommentProvider commentProvider = null,
+            INodeCommentProvider nodeCommentProvider = null,
             ILogger logger = null)
         {
             if (types == null)
@@ -25,7 +25,7 @@ namespace TypedTree.Generator.Core.Mapping
             this.Types = types;
             this.FieldSource = fieldSource;
             this.TypeIgnorePattern = typeIgnorePattern;
-            this.CommentProvider = commentProvider;
+            this.NodeCommentProvider = nodeCommentProvider;
             this.Logger = logger;
         }
 
@@ -47,7 +47,7 @@ namespace TypedTree.Generator.Core.Mapping
         /// <summary>
         /// Optional provider for node-comments to be added to the scheme.
         /// </summary>
-        public INodeCommentProvider CommentProvider { get; }
+        public INodeCommentProvider NodeCommentProvider { get; }
 
         /// <summary>
         /// Optional logger.
@@ -60,20 +60,20 @@ namespace TypedTree.Generator.Core.Mapping
         /// <param name="types">Set of types</param>
         /// <param name="fieldSource">Where to look for fields on a node</param>
         /// <param name="typeIgnorePattern">Optional regex pattern for types to ignore</param>
-        /// <param name="commentProvider">Optional provider for node comments</param>
+        /// <param name="nodeCommentProvider">Optional provider for node comments</param>
         /// <param name="logger">Optional logger</param>
         /// <returns>Newly created context</returns>
         public static Context Create(
             ITypeCollection types,
             FieldSource fieldSource,
             Regex typeIgnorePattern = null,
-            INodeCommentProvider commentProvider = null,
+            INodeCommentProvider nodeCommentProvider = null,
             ILogger logger = null)
         {
             if (types == null)
                 throw new ArgumentNullException(nameof(types));
 
-            return new Context(types, fieldSource, typeIgnorePattern, commentProvider, logger);
+            return new Context(types, fieldSource, typeIgnorePattern, nodeCommentProvider, logger);
         }
     }
 }

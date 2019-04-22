@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 
 using TypedTree.Generator.Core.Mapping;
+using TypedTree.Generator.Core.Mapping.NodeComments;
 using TypedTree.Generator.Core.Scheme;
 using TypedTree.Generator.Core.Serialization;
 
@@ -66,12 +67,26 @@ namespace TypedTree.Generator.Cli
                 return 1;
             }
 
+            // Load doc-comment file for providing node comments.
+            XmlNodeCommentProvider nodeCommentProvider = null;
+            var xmlDocFilePath = Path.ChangeExtension(assemblyFile, "xml");
+            if (File.Exists(xmlDocFilePath))
+            {
+                this.logger.LogInformation($"Using doc-comment file: '{xmlDocFilePath}'");
+                using (var stream = new FileStream(xmlDocFilePath, FileMode.Open, FileAccess.Read))
+                {
+                    if (!XmlNodeCommentProvider.TryParse(stream, out nodeCommentProvider))
+                        this.logger?.LogWarning($"Failed to parse doc-comment file: '{xmlDocFilePath}'");
+                }
+            }
+
             // Create context object containing all the settings for the mapping.
             var context = Context.Create(
                 typeCollection,
                 fieldSource,
                 typeIgnorePattern,
-                logger: this.logger.IsEnabled(LogLevel.Debug) ? this.logger : null);
+                nodeCommentProvider,
+                this.logger.IsEnabled(LogLevel.Debug) ? this.logger : null);
 
             // Map the tree.
             TreeDefinition tree = null;
