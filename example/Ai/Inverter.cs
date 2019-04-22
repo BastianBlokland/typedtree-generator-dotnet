@@ -1,6 +1,9 @@
 namespace Example.Ai
 {
-    public class Inverter : INode
+    /// <summary>
+    /// Invert the result of the child.
+    /// </summary>
+    internal class Inverter : INode
     {
         private readonly INode child;
 

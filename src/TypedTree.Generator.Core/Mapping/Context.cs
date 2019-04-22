@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 
+using TypedTree.Generator.Core.Mapping.NodeComments;
 using TypedTree.Generator.Core.Utilities;
 
 namespace TypedTree.Generator.Core.Mapping
@@ -16,6 +16,7 @@ namespace TypedTree.Generator.Core.Mapping
             ITypeCollection types,
             FieldSource fieldSource,
             Regex typeIgnorePattern = null,
+            INodeCommentProvider nodeCommentProvider = null,
             ILogger logger = null)
         {
             if (types == null)
@@ -24,6 +25,7 @@ namespace TypedTree.Generator.Core.Mapping
             this.Types = types;
             this.FieldSource = fieldSource;
             this.TypeIgnorePattern = typeIgnorePattern;
+            this.NodeCommentProvider = nodeCommentProvider;
             this.Logger = logger;
         }
 
@@ -43,6 +45,11 @@ namespace TypedTree.Generator.Core.Mapping
         public Regex TypeIgnorePattern { get; }
 
         /// <summary>
+        /// Optional provider for node-comments to be added to the scheme.
+        /// </summary>
+        public INodeCommentProvider NodeCommentProvider { get; }
+
+        /// <summary>
         /// Optional logger.
         /// </summary>
         public ILogger Logger { get; }
@@ -53,18 +60,20 @@ namespace TypedTree.Generator.Core.Mapping
         /// <param name="types">Set of types</param>
         /// <param name="fieldSource">Where to look for fields on a node</param>
         /// <param name="typeIgnorePattern">Optional regex pattern for types to ignore</param>
+        /// <param name="nodeCommentProvider">Optional provider for node comments</param>
         /// <param name="logger">Optional logger</param>
         /// <returns>Newly created context</returns>
         public static Context Create(
             ITypeCollection types,
             FieldSource fieldSource,
             Regex typeIgnorePattern = null,
+            INodeCommentProvider nodeCommentProvider = null,
             ILogger logger = null)
         {
             if (types == null)
                 throw new ArgumentNullException(nameof(types));
 
-            return new Context(types, fieldSource, typeIgnorePattern, logger);
+            return new Context(types, fieldSource, typeIgnorePattern, nodeCommentProvider, logger);
         }
     }
 }

@@ -225,7 +225,7 @@ namespace TypedTree.Generator.Core.Builder
             NodeDefinition definition;
             if (build == null)
             {
-                definition = new NodeDefinition(typeIdentifier, ImmutableArray<INodeField>.Empty);
+                definition = new NodeDefinition(typeIdentifier, comment: null, ImmutableArray<INodeField>.Empty);
             }
             else
             {

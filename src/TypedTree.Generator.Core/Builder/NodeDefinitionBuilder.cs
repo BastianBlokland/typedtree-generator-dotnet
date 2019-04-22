@@ -23,6 +23,11 @@ namespace TypedTree.Generator.Core.Builder
         }
 
         /// <summary>
+        /// Optional comment about this node.
+        /// </summary>
+        public string Comment { get; set; }
+
+        /// <summary>
         /// Add a string field to this node.
         /// </summary>
         /// <remarks>Name has to be unique across fields on the same node.</remarks>
@@ -85,7 +90,7 @@ namespace TypedTree.Generator.Core.Builder
             this.PushField(new EnumNodeField(name, @enum, isArray));
 
         internal NodeDefinition Build() =>
-            new NodeDefinition(this.typeIdentifier, this.fields.ToImmutableArray());
+            new NodeDefinition(this.typeIdentifier, this.Comment, this.fields.ToImmutableArray());
 
         private void PushField(INodeField field)
         {

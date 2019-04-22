@@ -5,8 +5,15 @@ using Newtonsoft.Json.Serialization;
 
 namespace Example
 {
-    public class Program
+    /// <summary>
+    /// Entry point class for the example.
+    /// </summary>
+    public static class Program
     {
+        /// <summary>
+        /// Entry point of the example.
+        /// </summary>
+        /// <param name="args">Application arguments</param>
         public static void Main(string[] args)
         {
             // Load brain.
@@ -25,7 +32,7 @@ namespace Example
                 {
                     // Run brain.
                     brain.Reset();
-                    while (brain.Evaluate(input) == Ai.NodeResult.Running);
+                    while (brain.Evaluate(input) == Ai.NodeResult.Running) ;
                 }
 
                 // Get input.

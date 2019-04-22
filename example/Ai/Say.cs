@@ -3,7 +3,11 @@ using System.Collections.Generic;
 
 namespace Example.Ai
 {
-    public class Say : INode
+    /// <summary>
+    /// Print given text to the console.
+    /// Will wait for given time before continuing.
+    /// </summary>
+    internal class Say : INode
     {
         private readonly string text;
         private readonly float time;

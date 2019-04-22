@@ -1,6 +1,6 @@
 ﻿namespace Example.Ai
 {
-    public enum NodeResult
+    internal enum NodeResult
     {
         Failure = 0,
         Success = 1,

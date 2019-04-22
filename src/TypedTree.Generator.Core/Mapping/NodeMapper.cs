@@ -107,6 +107,10 @@ namespace TypedTree.Generator.Core.Mapping
                 // Push new node
                 var result = builder.PushNode(identifier, b =>
                 {
+                    // Add optional comment.
+                    b.Comment = context.NodeCommentProvider?.GetComment(nodeType);
+
+                    // Add nodes.
                     foreach (var field in GetFields())
                     {
                         switch (field.@class)
