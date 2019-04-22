@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace Example.Ai
 {
     /// <summary>
-    /// Executes child nodes, will stop at the first child that returns successfull.
+    /// Executes child nodes, will stop at the first child that returns successful.
     /// </summary>
     internal class Selector : INode
     {

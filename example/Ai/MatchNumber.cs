@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Example.Ai
 {
     /// <summary>
-    /// Returns successfull if the user typed a specific number.
+    /// Returns successful if the user typed a specific number.
     /// </summary>
     internal class MatchNumber : INode
     {
