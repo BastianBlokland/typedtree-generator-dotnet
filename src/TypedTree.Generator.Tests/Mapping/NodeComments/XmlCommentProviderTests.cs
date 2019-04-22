@@ -1,8 +1,8 @@
 using Xunit;
 
-using TypedTree.Generator.Core.Mapping;
+using TypedTree.Generator.Core.Mapping.NodeComments;
 
-namespace TypedTree.Generator.Tests.Mapping
+namespace TypedTree.Generator.Tests.Mapping.NodeComments
 {
     public sealed class XmlCommentProviderTests
     {

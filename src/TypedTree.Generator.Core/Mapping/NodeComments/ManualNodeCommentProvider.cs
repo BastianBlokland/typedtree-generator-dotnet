@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TypedTree.Generator.Core.Mapping
+namespace TypedTree.Generator.Core.Mapping.NodeComments
 {
     /// <summary>
     /// Implementation of <see cref="INodeCommentProvider"/> that uses manually entered comments.

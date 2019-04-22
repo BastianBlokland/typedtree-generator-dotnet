@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TypedTree.Generator.Core.Mapping
+namespace TypedTree.Generator.Core.Mapping.NodeComments
 {
     /// <summary>
     /// Interface for a provider of node comments.

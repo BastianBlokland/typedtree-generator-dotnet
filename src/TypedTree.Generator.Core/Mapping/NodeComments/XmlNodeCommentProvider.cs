@@ -3,7 +3,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
 
-namespace TypedTree.Generator.Core.Mapping
+namespace TypedTree.Generator.Core.Mapping.NodeComments
 {
     /// <summary>
     /// Implementation of <see cref="INodeCommentProvider"/> that parses a doc-comment output xml file.
