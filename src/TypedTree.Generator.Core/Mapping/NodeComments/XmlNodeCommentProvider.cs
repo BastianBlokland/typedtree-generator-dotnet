@@ -79,7 +79,7 @@ namespace TypedTree.Generator.Core.Mapping.NodeComments
 
             // Find the member element for given type using xpath.
             var typeDoc = this.document.SelectSingleNode(
-                $"//member[starts-with(@name, 'T:{type.FullName}')]");
+                $"//member[starts-with(@name, 'T:{GetCSharpTypeName(type)}')]");
             if (typeDoc == null)
                 return null;
 
@@ -90,6 +90,8 @@ namespace TypedTree.Generator.Core.Mapping.NodeComments
 
             // Sanitize the output by stripping starting whitespace from all lines.
             return Regex.Replace(summaryElement.InnerText, @"(^\s+)", string.Empty, RegexOptions.Multiline);
+
+            string GetCSharpTypeName(Type t) => t.FullName.Replace('+', '.');
         }
     }
 }
