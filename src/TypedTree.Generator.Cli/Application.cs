@@ -16,7 +16,7 @@ namespace TypedTree.Generator.Cli
     /// </summary>
     public sealed class Application
     {
-        private readonly ILogger logger;
+        private readonly LoggerAdapter logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Application"/> class.
@@ -27,7 +27,7 @@ namespace TypedTree.Generator.Cli
             if (logger == null)
                 throw new ArgumentNullException(nameof(logger));
 
-            this.logger = logger;
+            this.logger = new LoggerAdapter(logger);
         }
 
         /// <summary>
