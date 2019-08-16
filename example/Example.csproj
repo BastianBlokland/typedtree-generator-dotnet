@@ -24,7 +24,7 @@
     <None Update="brain.tree.json" CopyToOutputDirectory="PreserveNewest" />
 
     <!-- Tools -->
-    <DotNetCliToolReference Include="TypedTree.Generator.Cli" Version="1.1.*" />
+    <DotNetCliToolReference Include="TypedTree.Generator.Cli" Version="1.2.*" />
 
   </ItemGroup>
 
