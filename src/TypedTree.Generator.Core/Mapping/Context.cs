@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Microsoft.Extensions.Logging;
 
 using TypedTree.Generator.Core.Mapping.NodeComments;
 using TypedTree.Generator.Core.Utilities;

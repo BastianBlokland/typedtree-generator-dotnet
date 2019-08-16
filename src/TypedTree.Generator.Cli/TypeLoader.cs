@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using McMaster.NETCore.Plugins.Loader;
-using Microsoft.Extensions.Logging;
 
 using TypedTree.Generator.Core.Utilities;
 
@@ -26,7 +25,7 @@ namespace TypedTree.Generator.Cli
         internal static ITypeCollection TryLoad(
             string assemblyPath,
             IEnumerable<string> dependencyDirectories,
-            ILogger logger = null)
+            Core.ILogger logger = null)
         {
             if (assemblyPath == null)
                 throw new ArgumentNullException(nameof(assemblyPath));
@@ -62,7 +61,7 @@ namespace TypedTree.Generator.Cli
             AssemblyLoadContext loadContext,
             string path,
             IEnumerable<string> dependencyDirectories,
-            ILogger logger = null)
+            Core.ILogger logger = null)
         {
             // Validate path.
             var validatedPath = ValidateFilePath(path, logger);
@@ -100,7 +99,7 @@ namespace TypedTree.Generator.Cli
             AssemblyLoadContext loadContext,
             AssemblyName assemblyName,
             IEnumerable<string> dependencyDirectories,
-            ILogger logger = null)
+            Core.ILogger logger = null)
         {
             // If assembly exists in any of the dependency paths then load it from there.
             var dependencyPath = dependencyDirectories.
@@ -154,7 +153,7 @@ namespace TypedTree.Generator.Cli
         private static bool IsAssemblyLoaded(AssemblyName assemblyName) =>
             AppDomain.CurrentDomain.GetAssemblies().Any(a => a.GetName().Name == assemblyName.Name);
 
-        private static AssemblyLoadContext CreateLoadContext(string assemblyPath, ILogger logger = null)
+        private static AssemblyLoadContext CreateLoadContext(string assemblyPath, Core.ILogger logger = null)
         {
             var validatedPath = ValidateFilePath(assemblyPath, logger);
             if (validatedPath == null)
@@ -183,7 +182,7 @@ namespace TypedTree.Generator.Cli
             return builder.Build();
         }
 
-        private static string ValidateFilePath(string path, ILogger logger = null)
+        private static string ValidateFilePath(string path, Core.ILogger logger = null)
         {
             // Determine full-path.
             string fullPath;
